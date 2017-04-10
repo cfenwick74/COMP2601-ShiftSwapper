@@ -8,8 +8,6 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.HashMap;
 
-import edu.carleton.COMP2601.MainActivity;
-
 /**
  * Created by Pierre on 4/10/2017.
  */

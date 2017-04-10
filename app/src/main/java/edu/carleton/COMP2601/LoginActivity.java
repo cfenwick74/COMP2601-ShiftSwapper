@@ -126,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
 	private class ConnectResponseHandler implements EventHandler {
 		@Override
 		public void handleEvent(Event event) {
+			System.out.println("In ConnectResponseHandler");
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
@@ -134,9 +135,9 @@ public class LoginActivity extends AppCompatActivity {
 				}
 			});
 
-			Intent intent = new Intent(LoginActivity.this, UserListActivity.class);
+//			Intent intent = new Intent(LoginActivity.this, UserListActivity.class);
 //			intent.putExtra("name", name);
-			startActivity(intent);
+//			startActivity(intent);
 		}
 	}
 
