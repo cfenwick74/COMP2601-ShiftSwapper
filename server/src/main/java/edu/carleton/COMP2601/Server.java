@@ -103,8 +103,7 @@ public class Server {
         @Override
         public void handleEvent(Event event) {
             // TODO: add employee or change employee status to "connected"
-//            int answer = database.login(Integer.parseInt((String)event.get(Fields.ID)), "1234");
-            int answer = database.login(Integer.parseInt(((JSONEvent)event).getSource()), "1234");
+            int answer = database.login(Integer.parseInt((String)event.get(Fields.ID)), (String)event.get(Fields.PASSWORD));
 
             try {
                 JSONObject jo = new JSONObject();

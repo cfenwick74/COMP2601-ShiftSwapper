@@ -72,11 +72,12 @@ public class JSONEventSource implements EventStream {
 			System.out.println(buf.toString());
 			try {
 				jo = new JSONObject(a);
-				JSONObject joFields = new JSONObject(jo.get(Fields.EVENT_CONTENT).toString());
+				JSONObject joFields = ((JSONObject) jo.get(Fields.EVENT_CONTENT));
 				HashMap<String, Serializable> fields = new HashMap<>();
-				Iterator itr = joFields.keys();
+				Iterator<String> itr = joFields.keys();
 				while(itr.hasNext()){
-					fields.put(itr.toString(), (Serializable) joFields.get(itr.toString()));
+					String key = itr.next();
+					fields.put(key, (Serializable) joFields.get(key));
 				}
 				evt = new JSONEvent(jo, this, fields);
 			} catch (JSONException e) {
