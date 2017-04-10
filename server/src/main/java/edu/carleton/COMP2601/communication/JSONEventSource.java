@@ -20,6 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class JSONEventSource implements EventStream {
 
@@ -71,9 +72,11 @@ public class JSONEventSource implements EventStream {
 			System.out.println(buf.toString());
 			try {
 				jo = new JSONObject(a);
-				JSONObject joFields = new JSONObject(jo.get(Fields.EVENT_CONTENT));
+				JSONObject joFields = ((JSONObject) jo.get(Fields.EVENT_CONTENT));
 				HashMap<String, Serializable> fields = new HashMap<>();
-				for(String key: joFields.keySet()){
+				Iterator<String> itr = joFields.keys();
+				while(itr.hasNext()){
+					String key = itr.next();
 					fields.put(key, (Serializable) joFields.get(key));
 				}
 				evt = new JSONEvent(jo, this, fields);
