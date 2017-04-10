@@ -34,7 +34,7 @@ public class AcceptorReactor {
     }
 
     public void register(String type, EventHandler e) {
-        twr.register(type, e);
+        r.register(type, e);
     }
 
     public void start(final Event event){

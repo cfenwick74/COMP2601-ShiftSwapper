@@ -1,8 +1,8 @@
 package edu.carleton.COMP2601;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +14,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.net.Socket;
 import java.util.HashMap;
 
@@ -31,8 +30,10 @@ public class LoginActivity extends AppCompatActivity {
 
 	Button loginBtn;
 	EditText userName, password, host, port_field;
-	private String empId, pwd, ipaddr;
-	private int port;
+	private String empId;
+	private String pwd = "1234";
+	private String ipaddr = "192.168.1.110";
+	private int port = 1024;
 	ProgressBar spinner;
 	static LoginActivity instance;
 	JSONEventSource e;
@@ -48,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_login);
 		instance = this;
 		ar = AcceptorReactor.getInstance();
+		ConnectResponseHandler connectResponseHandler = new ConnectResponseHandler();
+		ar.register(Fields.CONNECTED_RESPONSE, connectResponseHandler);
 
 		spinner = (ProgressBar) findViewById(R.id.progressBar);
 		spinner.setVisibility(View.GONE);
@@ -56,32 +59,35 @@ public class LoginActivity extends AppCompatActivity {
 		password = (EditText) findViewById(R.id.password_text);
 		host = (EditText) findViewById(R.id.ip_text);
 		port_field = (EditText) findViewById(R.id.port_text);
+		password.setText(pwd);
+		host.setText(ipaddr);
+		port_field.setText(String.valueOf(port));
 	}
 
 
-	public void login(View view) throws JSONException {
+	public void login(View view) {
 		ipaddr = host.getText().toString();
 		empId = userName.getText().toString();
 		pwd = password.getText().toString();
 		port = Integer.parseInt(port_field.getText().toString());
 
 		ar.init(port, ipaddr);
-		LoginActivity.ConnectResponseHandler connectResponseHandler = new ConnectResponseHandler();
-		ar.register(Fields.CONNECTED_RESPONSE, connectResponseHandler);
+
 
 		HashMap m = new HashMap();
 		m.put(Fields.ID, empId);
 		m.put(Fields.PASSWORD, pwd);
 
 		spinner.setIndeterminate(true);
-		JSONObject jo = new JSONObject();
-		jo.put(Fields.TYPE, Fields.CONNECT_REQUEST);
-		jo.put(Fields.SOURCE, empId);
-		jo.put(Fields.DEST, "");
-
-		ar.start(new JSONEvent(jo, null, m));
-
-
+		try {
+			JSONObject jo = new JSONObject();
+			jo.put(Fields.TYPE, Fields.CONNECT_REQUEST);
+			jo.put(Fields.SOURCE, empId);
+			jo.put(Fields.DEST, "");
+			ar.start(new JSONEvent(jo, null, m));
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
 
 	}
 
@@ -116,15 +122,6 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
-	/**
-	 * Initialize reactor and register connection handler
-	 */
-	void init() {
-		r = new Reactor();
-		LoginActivity.ConnectResponseHandler connectResponseHandler = new ConnectResponseHandler();
-		r.register(Fields.CONNECTED_RESPONSE, connectResponseHandler);
-	}
-
 
 	private class ConnectResponseHandler implements EventHandler {
 		@Override
@@ -145,7 +142,3 @@ public class LoginActivity extends AppCompatActivity {
 
 
 }
-
-
-//	Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
-//	startActivity(intent);
