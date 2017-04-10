@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         Thread connectThread = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     s = new Socket(ipaddr, port);
                     e = new JSONEventSource(s);

@@ -14,7 +14,10 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by carolyn on 2017-04-09.
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
  */
 public class ShiftSwapRepositoryTest {
 
@@ -30,8 +33,6 @@ public class ShiftSwapRepositoryTest {
 		FileUtils.copyFile(new File("project.db"), database);
 		URI relativeURI = new File("/").toURI().relativize(database.toURI());
 		shiftSwapRepo = new ShiftSwapRepository("jdbc:sqlite:" + database.getPath());
-
-
 	}
 
 	@Test

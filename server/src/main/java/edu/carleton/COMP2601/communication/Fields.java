@@ -22,6 +22,7 @@ public class Fields {
 	public static final String NEW_SHIFT = "NewShift";
 	public static final String IS_ADMIN = "isAdmin";
 	public static final String ID = "ID";
+	public static final String PASSWORD = "PASSWORD";
 	public static final String DATABASE = "DB";
 	public static final int INVALID_USER_ENTRY = -1;
 	public static final int USER_ISADMIN = 1;
