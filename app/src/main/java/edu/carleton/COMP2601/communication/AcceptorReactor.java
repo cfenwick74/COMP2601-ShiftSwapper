@@ -22,22 +22,22 @@ public class AcceptorReactor {
     static AcceptorReactor instance = new AcceptorReactor();
     String addr;
     int port;
-    public AcceptorReactor getInstance(){return instance;}
+    public static AcceptorReactor getInstance(){return instance;}
 
     private AcceptorReactor(){
         r = new Reactor();
     }
 
-    void init(int port, String addr){
+    public void init(int port, String addr){
         this.port = port;
         this.addr = addr;
     }
 
-    void register(String type, EventHandler e) {
+    public void register(String type, EventHandler e) {
         twr.register(type, e);
     }
 
-    void start(final Event event){
+    public void start(final Event event){
         Thread connectThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -60,7 +60,7 @@ public class AcceptorReactor {
      * Sends an Event to the server
      * @param e the Event to send
      */
-    void put(Event e) {
+    public void put(Event e) {
         if (twr != null) {
             try {
                 ((JSONEventSource) twr.getEventSource()).putEvent(e);

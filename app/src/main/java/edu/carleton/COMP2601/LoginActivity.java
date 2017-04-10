@@ -18,6 +18,7 @@ import java.lang.reflect.Field;
 import java.net.Socket;
 import java.util.HashMap;
 
+import edu.carleton.COMP2601.communication.AcceptorReactor;
 import edu.carleton.COMP2601.communication.Event;
 import edu.carleton.COMP2601.communication.EventHandler;
 import edu.carleton.COMP2601.communication.Fields;
@@ -39,11 +40,14 @@ public class LoginActivity extends AppCompatActivity {
 	Socket s;
 	Reactor r;
 
+	AcceptorReactor ar;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		instance = this;
+		ar = AcceptorReactor.getInstance();
 
 		spinner = (ProgressBar) findViewById(R.id.progressBar);
 		spinner.setVisibility(View.GONE);
@@ -55,42 +59,29 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 
-	public void login(View view) {
+	public void login(View view) throws JSONException {
 		ipaddr = host.getText().toString();
 		empId = userName.getText().toString();
 		pwd = password.getText().toString();
 		port = Integer.parseInt(port_field.getText().toString());
 
-		Thread connectThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					s = new Socket(ipaddr, port);
-					e = new JSONEventSource(s);
-					init();
-					twr = new ThreadWithReactor(e, r);
+		ar.init(port, ipaddr);
+		LoginActivity.ConnectResponseHandler connectResponseHandler = new ConnectResponseHandler();
+		ar.register(Fields.CONNECTED_RESPONSE, connectResponseHandler);
 
-					HashMap m = new HashMap();
-					m.put(Fields.ID, empId);
-					m.put(Fields.PASSWORD, pwd);
+		HashMap m = new HashMap();
+		m.put(Fields.ID, empId);
+		m.put(Fields.PASSWORD, pwd);
 
-					spinner.setIndeterminate(true);
-					JSONObject jo = new JSONObject();
-					jo.put(Fields.TYPE, Fields.CONNECT_REQUEST);
-					jo.put(Fields.SOURCE, empId);
-					jo.put(Fields.DEST, "");
+		spinner.setIndeterminate(true);
+		JSONObject jo = new JSONObject();
+		jo.put(Fields.TYPE, Fields.CONNECT_REQUEST);
+		jo.put(Fields.SOURCE, empId);
+		jo.put(Fields.DEST, "");
 
-					twr.start(new JSONEvent(jo, null, m));
+		ar.start(new JSONEvent(jo, null, m));
 
-				} catch (IOException | JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		connectThread.start();
 
-		//TODO: message with map JSON event
-		// Fields.id with login -- source
 
 	}
 
