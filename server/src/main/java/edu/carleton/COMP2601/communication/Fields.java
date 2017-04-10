@@ -9,11 +9,22 @@ package edu.carleton.COMP2601.communication;
 
 public class Fields {
 	public static final String SHIFT = "SHIFT";
-	public static final String SHIFT_SWAP = "SHIFT_SWAP";
-	public static final String SHIFT_RELEASE = "SHIFT_RELEASE";
+	public static final String SHIFT_SWAP_REQUEST = "SHIFT_SWAP_REQUEST";
+	public static final String SHIFT_SWAP_RESPONSE = "SHIFT_SWAP_RESPONSE";
+
+	public static final String SHIFT_RELEASE_REQUEST = "SHIFT_RELEASE_REQUEST";
+	public static final String SHIFT_RELEASE_RESPONSE = "SHIFT_RELEASE_RESPONSE";
+
+	public static final String ADD_SHIFT_REQUEST = "ADD_SHIFT_REQUEST";
+	public static final String ADD_SHIFT_RESPONSE = "ADD_SHIFT_RESPONSE";
+
+	public static final String ASSIGN_SHIFT_REQUEST = "ASSIGN_SHIFT_REQUEST";
+	public static final String ASSIGN_SHIFT_RESPONSE = "ASSIGN_SHIFT_RESPONSE";
+
 	public static final String CONNECT_REQUEST = "CONNECT";
-	public static final String DISCONNECT_REQUEST = "DISCONNECT";
 	public static final String CONNECTED_RESPONSE = "CONNECTED";
+
+	public static final String DISCONNECT_REQUEST = "DISCONNECT";
 
 	public static final String TYPE = "Type";
 	public static final String SOURCE = "Source";

@@ -57,7 +57,7 @@ public class Event implements EventStream, Serializable {
 		map.put(key, value);
 	}
 
-	Serializable get(String key) {
+	public Serializable get(String key) {
 		return map.get(key);
 	}
 
