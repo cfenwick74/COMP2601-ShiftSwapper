@@ -35,7 +35,7 @@
         android:layout_below="@id/port_label"/>
     <TextView
         android:id="@+id/name_label"
-        android:text="@string/name_label"
+        android:text="@string/id_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_port"/>

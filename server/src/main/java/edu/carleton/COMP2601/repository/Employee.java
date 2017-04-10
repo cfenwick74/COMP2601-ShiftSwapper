@@ -55,7 +55,6 @@ private int id;
 		if (address != null ? !address.equals(employee.address) : employee.address != null)
 			return false;
 		return password != null ? password.equals(employee.password) : employee.password == null;
-
 	}
 
 	@Override
