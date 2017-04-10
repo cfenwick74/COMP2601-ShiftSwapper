@@ -12,16 +12,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.HashMap;
+
 import edu.carleton.COMP2601.communication.Event;
 import edu.carleton.COMP2601.communication.EventHandler;
-import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.communication.JSONEvent;
 
 
@@ -62,9 +63,9 @@ public class GameActivity extends AppCompatActivity {
         game = new Game();
 
         instance = MainActivity.getInstance();
-        instance.register(Fields.MOVE_MESSAGE, new MoveReceived());
-        instance.register(Fields.GAME_ON, new StartGameEvent());
-        instance.register(Fields.GAME_OVER, new GameOverEvent());
+//        instance.register(Fields.MOVE_MESSAGE, new MoveReceived());
+//        instance.register(Fields.GAME_ON, new StartGameEvent());
+//        instance.register(Fields.GAME_OVER, new GameOverEvent());
 
         /**
          * Define behaviour for game toggle button. If there is no game in progress,
@@ -88,11 +89,11 @@ public class GameActivity extends AppCompatActivity {
                     game.setTurn(PLAYER);
                     try {
                         JSONObject jo = new JSONObject();
-                        jo.put("Type", Fields.GAME_ON);
+//                        jo.put("Type", Fields.GAME_ON);
                         jo.put("Source", instance.getSource());
                         jo.put("Dest", instance.getDest());
                         jo.put("Message", "");
-                        instance.sendToServer(new JSONEvent(jo, null));
+                        instance.sendToServer(new JSONEvent(jo, null, new HashMap<String,Serializable>()));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -107,11 +108,11 @@ public class GameActivity extends AppCompatActivity {
 
                     try {
                         JSONObject jo = new JSONObject();
-                        jo.put("Type", Fields.GAME_OVER);
+//                        jo.put("Type", Fields.GAME_OVER);
                         jo.put("Source", instance.getSource());
                         jo.put("Dest", instance.getDest());
                         jo.put("Message", instance.getSource() + getString(R.string.opponent_ended_text));
-                        instance.sendToServer(new JSONEvent(jo, null));
+                        instance.sendToServer(new JSONEvent(jo, null, new HashMap<String, Serializable>()));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -138,11 +139,11 @@ public class GameActivity extends AppCompatActivity {
             game.playerMove(PLAYER, button);
             try {
                 JSONObject jo = new JSONObject();
-                jo.put("Type", Fields.MOVE_MESSAGE);
+//                jo.put("Type", Fields.MOVE_MESSAGE);
                 jo.put("Source", instance.getSource());
                 jo.put("Dest", instance.getDest());
                 jo.put("Message", Integer.toString(button));
-                instance.sendToServer(new JSONEvent(jo, null));
+                instance.sendToServer(new JSONEvent(jo, null, new HashMap<String, Serializable>()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -215,7 +216,7 @@ public class GameActivity extends AppCompatActivity {
         setTTTButtons(false);
         try {
             JSONObject jo = new JSONObject();
-            jo.put("Type", Fields.GAME_OVER);
+//            jo.put("Type", Fields.GAME_OVER);
             jo.put("Source", instance.getSource());
             jo.put("Dest", instance.getDest());
             if (winner == OPPONENT) {
@@ -228,7 +229,7 @@ public class GameActivity extends AppCompatActivity {
                 textEdit.setText(getString(R.string.no_winner));
                 jo.put("Message", getString(R.string.no_winner));
             }
-            instance.sendToServer(new JSONEvent(jo, null));
+            instance.sendToServer(new JSONEvent(jo, null, new HashMap<String, Serializable>()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -257,11 +258,11 @@ public class GameActivity extends AppCompatActivity {
         super.onPause();
         try {
             JSONObject jo = new JSONObject();
-            jo.put("Type", Fields.GAME_OVER);
+//            jo.put("Type", Fields.GAME_OVER);
             jo.put("Source", instance.getSource());
             jo.put("Dest", instance.getDest());
             jo.put("Message", instance.getSource() + getString(R.string.opponent_ended_text));
-            instance.sendToServer(new JSONEvent(jo, null));
+            instance.sendToServer(new JSONEvent(jo, null, new HashMap<String, Serializable>()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -274,10 +275,10 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void handleEvent(Event event) {
             if (game.getTurn() == OPPONENT) {
-                int move = Integer.parseInt(((JSONEvent) event).getMessage());
-                game.playerMove(OPPONENT, move);
-                setTTTButtons(true);
-                updateUi(OPPONENT, move, game.checkForWinner());
+//                int move = Integer.parseInt(((JSONEvent) event).getMessage());
+//                game.playerMove(OPPONENT, move);
+//                setTTTButtons(true);
+//                updateUi(OPPONENT, move, game.checkForWinner());
             }
         }
     }
@@ -318,7 +319,7 @@ public class GameActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     gameToggleButton.setText(R.string.start_text);
-                    textEdit.setText(((JSONEvent) event).getMessage());
+//                    textEdit.setText(((JSONEvent) event).getMessage());
                 }
             });
         }

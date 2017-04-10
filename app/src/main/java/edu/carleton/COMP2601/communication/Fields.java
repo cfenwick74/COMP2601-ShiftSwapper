@@ -8,13 +8,17 @@ package edu.carleton.COMP2601.communication;
  */
 
 public class Fields {
-	public static final String GAME_ON = "GAME_ON";
-	public static final String GAME_OVER = "GAME_OVER";
-	public static final String MOVE_MESSAGE = "MOVE_MESSAGE";
+	public static final String SHIFT = "SHIFT";
+	public static final String SHIFT_SWAP = "SHIFT_SWAP";
+	public static final String SHIFT_RELEASE = "SHIFT_RELEASE";
 	public static final String CONNECT_REQUEST = "CONNECT";
 	public static final String DISCONNECT_REQUEST = "DISCONNECT";
 	public static final String CONNECTED_RESPONSE = "CONNECTED";
-	public static final String USERS_UPDATED = "USER LIST UPDATED";
-	public static final String PLAY_GAME_REQUEST = "PLAY GAME REQUEST";
-	public static final String PLAY_GAME_RESPONSE = "PLAY GAME RESPONSE";
+
+	public static final String TYPE = "Type";
+	public static final String SOURCE = "Source";
+	public static final String DEST = "Dest";
+	public static final String EVENT_CONTENT = "FIELDS";
+	public static final String NEW_SHIFT = "NewShift";
+	public static final String IS_ADMIN = "isAdmin";
 }

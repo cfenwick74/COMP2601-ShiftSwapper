@@ -17,7 +17,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class JSONEventSource implements EventStream {
 
@@ -69,7 +71,12 @@ public class JSONEventSource implements EventStream {
 			System.out.println(buf.toString());
 			try {
 				jo = new JSONObject(a);
-				evt = new JSONEvent(jo, this);
+				JSONObject joFields = new JSONObject(jo.get(Fields.EVENT_CONTENT));
+				HashMap<String, Serializable> fields = new HashMap<>();
+				for(String key: joFields.keySet()){
+					fields.put(key, (Serializable) joFields.get(key));
+				}
+				evt = new JSONEvent(jo, this, fields);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -80,11 +87,15 @@ public class JSONEventSource implements EventStream {
 	@SuppressWarnings("unchecked")
 	public void putEvent(Event e) throws IOException {
 		JSONObject jo = new JSONObject();
-		jo.put(JSONEvent.TYPE, ((JSONEvent) e).getType());
-		jo.put(JSONEvent.SOURCE, ((JSONEvent) e).getSource());
-		jo.put(JSONEvent.DEST, ((JSONEvent) e).getDest());
-		jo.put(JSONEvent.NEW_SHIFT, ((JSONEvent) e).getShift());
-		jo.put(JSONEvent.NEW_SHIFT, ((JSONEvent) e).getNewShift());
+		jo.put(Fields.TYPE, ((JSONEvent) e).getType());
+		jo.put(Fields.SOURCE, ((JSONEvent) e).getSource());
+		jo.put(Fields.DEST, ((JSONEvent) e).getDest());
+
+		JSONObject fields = new JSONObject();
+		for(String key: e.getMap().keySet()){
+			fields.put(key, e.get(key));
+		}
+		jo.put(Fields.EVENT_CONTENT, fields);
 		writer.write(jo.toString());
 		writer.newLine();
 		writer.newLine();

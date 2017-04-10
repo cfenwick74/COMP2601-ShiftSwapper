@@ -17,7 +17,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class JSONEventSource implements EventStream {
 
@@ -41,6 +44,7 @@ public class JSONEventSource implements EventStream {
 		writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	}
+
 	/*
 	 * Designed for server-side usage when a socket has been accepted
 	 */
@@ -54,9 +58,9 @@ public class JSONEventSource implements EventStream {
 		StringBuffer buf = new StringBuffer();
 		String line;
 		boolean done = false;
-		while(!done){
+		while (!done) {
 			line = reader.readLine();
-			if(line == null || line.isEmpty())
+			if (line == null || line.isEmpty())
 				done = true;
 			else
 				buf.append(line);
@@ -64,11 +68,17 @@ public class JSONEventSource implements EventStream {
 		JSONObject jo;
 		JSONEvent evt = null;
 		String a = buf.toString();
-		if(!a.equals("")){
+		if (!a.equals("")) {
 			System.out.println(buf.toString());
 			try {
 				jo = new JSONObject(a);
-				evt = new JSONEvent(jo, this);
+				JSONObject joFields = new JSONObject(jo.get(Fields.EVENT_CONTENT).toString());
+				HashMap<String, Serializable> fields = new HashMap<>();
+				Iterator itr = joFields.keys();
+				while(itr.hasNext()){
+					fields.put(itr.toString(), (Serializable) joFields.get(itr.toString()));
+				}
+				evt = new JSONEvent(jo, this, fields);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -80,13 +90,19 @@ public class JSONEventSource implements EventStream {
 	public void putEvent(Event e) throws IOException {
 		JSONObject jo = new JSONObject();
 		try {
-			jo.put("Type", ((JSONEvent)e).getType());
-			jo.put("Source", ((JSONEvent)e).getSource());
-			jo.put("Dest",((JSONEvent)e).getDest());
-			jo.put("Message", ((JSONEvent)e).getMessage());
+			jo.put(Fields.TYPE, ((JSONEvent) e).getType());
+			jo.put(Fields.SOURCE, ((JSONEvent) e).getSource());
+			jo.put(Fields.DEST, ((JSONEvent) e).getDest());
+
+			JSONObject fields = new JSONObject();
+			for(String key: e.getMap().keySet()){
+				fields.put(key, e.get(key));
+			}
+			jo.put(Fields.EVENT_CONTENT, fields);
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
+
 		writer.write(jo.toString());
 		writer.newLine();
 		writer.newLine();

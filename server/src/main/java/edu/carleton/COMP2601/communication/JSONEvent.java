@@ -10,17 +10,13 @@ package edu.carleton.COMP2601.communication;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.HashMap;
+
 public class JSONEvent extends Event {
-    public static final String TYPE = "Type";
-    public static final String SOURCE = "Source";
-    public static final String DEST = "Dest";
-    public static final String NEW_SHIFT = "NewShift";
-    public static final String SHIFT = "Shift";
 
     private final String source;
     private final String dest;
-    private final String shift;
-    private final String newShift;
 
 
     /**
@@ -30,12 +26,10 @@ public class JSONEvent extends Event {
      * @param s  the object's {@link EventStream}
      * @throws JSONException
      */
-    public JSONEvent(JSONObject jo, EventStream s) throws JSONException {
-        super(jo.getString(TYPE), s);
-        this.source = jo.getString(SOURCE);
-        this.dest = jo.getString(DEST);
-        this.shift = jo.getString(SHIFT);
-        this.newShift = jo.getString(NEW_SHIFT);
+    public JSONEvent(JSONObject jo, EventStream s, HashMap<String,Serializable> fields) throws JSONException {
+        super(jo.getString(Fields.TYPE), s, fields);
+        this.source = jo.getString(Fields.SOURCE);
+        this.dest = jo.getString(Fields.DEST);
     }
 
     public String getSource() {
@@ -50,12 +44,6 @@ public class JSONEvent extends Event {
         return type;
     }
 
-    public String getShift() {
-        return shift;
-    }
 
-    public String getNewShift() {
-        return newShift;
-    }
 
 }

@@ -12,15 +12,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.carleton.COMP2601.communication.Event;
 import edu.carleton.COMP2601.communication.EventHandler;
-import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.communication.JSONEvent;
 
 public class UserListActivity extends AppCompatActivity {
@@ -42,9 +42,9 @@ public class UserListActivity extends AppCompatActivity {
 
         myName = instance.getSource();
 
-        instance.register(Fields.USERS_UPDATED, new ListUpdateHandler());
-        instance.register(Fields.PLAY_GAME_RESPONSE, new PlayGameResponseHandler());
-        instance.register(Fields.PLAY_GAME_REQUEST, new PlayGameRequestHandler());
+//        instance.register(Fields.USERS_UPDATED, new ListUpdateHandler());
+//        instance.register(Fields.PLAY_GAME_RESPONSE, new PlayGameResponseHandler());
+//        instance.register(Fields.PLAY_GAME_REQUEST, new PlayGameRequestHandler());
         this.adapter = new ArrayAdapter<>(this, R.layout.list_row, list);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -63,11 +63,11 @@ public class UserListActivity extends AppCompatActivity {
 
                         try {
                             JSONObject jo = new JSONObject();
-                            jo.put("Type", Fields.PLAY_GAME_REQUEST);
+//                            jo.put("Type", Fields.PLAY_GAME_REQUEST);
                             jo.put("Source", instance.getSource());
                             jo.put("Dest", instance.getDest());
                             jo.put("Message", "");
-                            instance.sendToServer(new JSONEvent(jo, null));
+                            instance.sendToServer(new JSONEvent(jo, null, new HashMap<String, Serializable>()));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -101,11 +101,11 @@ public class UserListActivity extends AppCompatActivity {
                             instance.setDest(((JSONEvent) event).getSource());
                             try {
                                 JSONObject jo = new JSONObject();
-                                jo.put("Type", Fields.PLAY_GAME_RESPONSE);
+//                                jo.put("Type", Fields.PLAY_GAME_RESPONSE);
                                 jo.put("Source", instance.getSource());
                                 jo.put("Dest", ((JSONEvent) event).getSource());
                                 jo.put("Message", true);
-                                instance.sendToServer(new JSONEvent(jo, null));
+                                instance.sendToServer(new JSONEvent(jo, null, new HashMap<String, Serializable>()));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -120,11 +120,11 @@ public class UserListActivity extends AppCompatActivity {
                                     dialog.dismiss();
                                     try {
                                         JSONObject jo = new JSONObject();
-                                        jo.put("Type", Fields.PLAY_GAME_RESPONSE);
+//                                        jo.put("Type", Fields.PLAY_GAME_RESPONSE);
                                         jo.put("Source", instance.getSource());
                                         jo.put("Dest", ((JSONEvent) event).getSource());
                                         jo.put("Message", false);
-                                        instance.sendToServer(new JSONEvent(jo, null));
+                                        instance.sendToServer(new JSONEvent(jo, null, new HashMap<String, Serializable>()));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -144,18 +144,18 @@ public class UserListActivity extends AppCompatActivity {
     private class PlayGameResponseHandler implements EventHandler {
         @Override
         public void handleEvent(final Event event) {
-            boolean playStatus = Boolean.valueOf(((JSONEvent)event).getMessage());
-            if (playStatus){
-                Intent intent = new Intent(UserListActivity.this, GameActivity.class);
-                startActivity(intent);
-            } else {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        gameInfo.setText(((JSONEvent) event).getSource() + getString(R.string.reject_game));
-                    }
-                });
-            }
+//            boolean playStatus = Boolean.valueOf(((JSONEvent)event).getMessage());
+//            if (playStatus){
+//                Intent intent = new Intent(UserListActivity.this, GameActivity.class);
+//                startActivity(intent);
+//            } else {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        gameInfo.setText(((JSONEvent) event).getSource() + getString(R.string.reject_game));
+//                    }
+//                });
+//            }
         }
     }
 
@@ -165,25 +165,25 @@ public class UserListActivity extends AppCompatActivity {
     private class ListUpdateHandler implements EventHandler {
         @Override
         public void handleEvent(Event event) {
-            String e = ((JSONEvent) event).getMessage();
-            list.clear();
-            try {
-                JSONArray jUsers = new JSONArray(e);
-                if (jUsers != null) {
-                    for (int i = 0; i < jUsers.length(); i++) {
-                        if (!myName.equals(jUsers.getString(i)))
-                            list.add(jUsers.getString(i));
-                    }
-                }
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyDataSetChanged();
-                }
-            });
+//            String e = ((JSONEvent) event).getMessage();
+//            list.clear();
+//            try {
+//                JSONArray jUsers = new JSONArray(e);
+//                if (jUsers != null) {
+//                    for (int i = 0; i < jUsers.length(); i++) {
+//                        if (!myName.equals(jUsers.getString(i)))
+//                            list.add(jUsers.getString(i));
+//                    }
+//                }
+//            } catch (JSONException e1) {
+//                e1.printStackTrace();
+//            }
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    adapter.notifyDataSetChanged();
+//                }
+//            });
         }
     }
 

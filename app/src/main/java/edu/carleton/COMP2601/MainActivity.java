@@ -20,8 +20,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.carleton.COMP2601.communication.Event;
 import edu.carleton.COMP2601.communication.EventHandler;
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     jo.put("Source", name);
                     jo.put("Dest", "");
                     jo.put("Message", "");
-                    twr.start(new JSONEvent(jo, null));
+                    twr.start(new JSONEvent(jo, null, new HashMap<String, Serializable>()));
 
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
@@ -175,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
             jo.put("Source", name);
             jo.put("Dest", "");
             jo.put("Message", "");
-            sendToServer(new JSONEvent(jo, null));
+            sendToServer(new JSONEvent(jo, null, new HashMap<String, Serializable>()));
         } catch (JSONException e1) {
             e1.printStackTrace();
         }

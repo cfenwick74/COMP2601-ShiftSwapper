@@ -34,7 +34,6 @@ public class ShiftSwapRepositoryTest {
 
 	}
 
-
 	@Test
 	public void employeeCanGetaListOfShifts() throws Exception {
 		assertTrue("should be some shifts", shiftSwapRepo.findAllShifts().size() > 0);

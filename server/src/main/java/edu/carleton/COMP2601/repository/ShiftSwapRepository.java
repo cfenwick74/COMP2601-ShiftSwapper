@@ -2,6 +2,8 @@ package edu.carleton.COMP2601.repository;
 
 import org.sqlite.SQLiteDataSource;
 
+import java.io.File;
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,17 +26,27 @@ public class ShiftSwapRepository {
 	public static final String TIME_OUT = "timeOut";
 	private static final String ID = "shift_id";
 
+	private static ShiftSwapRepository instance = new ShiftSwapRepository();
 
 	private static String LAST_ID_QUERY = "select last_insert_rowid()";
 	private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 	SQLiteDataSource ds;
 
-	public ShiftSwapRepository(String databaseUrl) {
-		ds = new SQLiteDataSource();
-		ds.setUrl(databaseUrl);
-	}
+	public static ShiftSwapRepository getInstance(){ return instance;}
 
+	private ShiftSwapRepository() {
+		String path = System.getProperty("user.dir");
+		ds = new SQLiteDataSource();
+		System.out.println(path);
+		ds.setUrl("jdbc:sqlite:"+path+"\\server\\src\\test\\resources\\project.db");
+	}
+	public ShiftSwapRepository(String newDb) {
+
+		ds = new SQLiteDataSource();
+
+		ds.setUrl(newDb);
+	}
 	// find all shifts in the database
 	public List<Shift> findAllShifts() throws SQLException {
 		ArrayList<Shift> shifts = new ArrayList<>();
@@ -48,6 +60,32 @@ public class ShiftSwapRepository {
 			}
 		}
 		return shifts;
+	}
+
+	/**
+	 *	 queries the db,
+	 *	 	if user is an admin - returns 1
+	 *	 	if user is an employee - returns 0
+	 *	 	if user doesn't exist - return -1
+ 	 */
+	public int login(Integer id, String pass){
+
+		String sql = "SELECT isAdmin FROM employees WHERE employee_id = ? AND password = ?";
+		try (Connection connection = ds.getConnection()) {
+			try (PreparedStatement st = connection.prepareStatement(sql)) {
+				st.setInt(1, id);
+				st.setString(2, pass);
+				ResultSet rs = st.executeQuery();
+				if(rs.getBoolean("isAdmin"))
+					return 1;
+				else
+					return 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+
 	}
 
 	public void addShift(Shift testShift) {

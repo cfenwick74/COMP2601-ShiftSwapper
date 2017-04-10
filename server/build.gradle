@@ -5,8 +5,7 @@ dependencies {
     compile 'org.json:json:20160810'
     compile 'org.xerial:sqlite-jdbc:3.7.2'
     testCompile 'junit:junit:4.12'
-    testCompile group: 'commons-io', name: 'commons-io', version: '2.4'
-
+    testCompile 'commons-io:commons-io:2.4'
 }
 
 sourceCompatibility = "1.7"

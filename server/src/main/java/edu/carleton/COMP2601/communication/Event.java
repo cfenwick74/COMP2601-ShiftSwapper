@@ -57,7 +57,7 @@ public class Event implements EventStream, Serializable {
 		map.put(key, value);
 	}
 
-	Serializable get(String key) {
+	public Serializable get(String key) {
 		return map.get(key);
 	}
 
@@ -88,4 +88,6 @@ public class Event implements EventStream, Serializable {
 			es.close();
 		}
 	}
+
+	public HashMap<String, Serializable> getMap(){return map;}
 }

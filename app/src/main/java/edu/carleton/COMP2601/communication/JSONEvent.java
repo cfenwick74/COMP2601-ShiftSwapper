@@ -10,22 +10,40 @@ package edu.carleton.COMP2601.communication;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JSONEvent extends Event {
-	private final String source;
-	private final String dest;
-	private final String message;
+import java.io.Serializable;
+import java.util.HashMap;
 
-	public JSONEvent(JSONObject jo, EventStream s) throws JSONException {
-		super(jo.getString("Type"),s);
-		this.source = jo.getString("Source");
-		this.dest = jo.getString("Dest");
-		this.message = jo.getString("Message");
-	}
-	
-	public String getSource() {
-		return source;
-	}
-	public String getDest() { return dest; }
-    public String getType() { return type; }
-	public String getMessage() { return message; }
+public class JSONEvent extends Event {
+
+    private final String source;
+    private final String dest;
+
+
+    /**
+     * Create a new {@link JSONEvent} from a {@link JSONObject}
+     *
+     * @param jo the {@link JSONObject} from which to create the event
+     * @param s  the object's {@link EventStream}
+     * @throws JSONException
+     */
+    public JSONEvent(JSONObject jo, EventStream s, HashMap<String,Serializable> fields) throws JSONException {
+        super(jo.getString(Fields.TYPE), s, fields);
+        this.source = jo.getString(Fields.SOURCE);
+        this.dest = jo.getString(Fields.DEST);
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public String getDest() {
+        return dest;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+
+
 }
