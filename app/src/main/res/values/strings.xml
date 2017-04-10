@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">COMP2601A2</string>
+    <string name="player_winner">You won the game.</string>
+    <string name="opponent_winner">\u0020won the game.</string>
+    <string name="no_winner">The game was a draw.</string>
+    <string name="start_text">Start</string>
+    <string name="stop_text">Stop</string>
+    <string name="running_text">Running</string>
+    <string name="pressed_text">\u0020pressed by\u0020</string>
+    <string name="button_text">Button\u0020</string>
+    <string name="user_ended_text">I ended the game.</string>
+    <string name="opponent_ended_text">\u0020ended the game.</string>
+    <string name="opponent_left_text">\u0020left the game.</string>
+    <string name="user_list_label">Tic Tac Toe: Connected Users</string>
+    <string name="reject_game">\u0020does not want to play</string>
+    <string name="ttt">Tic Tac Toe</string>
+    <string name="notifications_here">List of users</string>
+    <string name="main_label">Multi-Client Tic Tac Toe</string>
+    <string name="ip_label">Host</string>
+    <string name="port_label">Port</string>
+    <string name="name_label">Name</string>
+    <string name="connect_btn_label">Connect</string>
+    <string name="in_hint">enter IP address</string>
+    <string name="port_hint">enter port</string>
+    <string name="name_hint">enter your name</string>
+    <string name="game_info">Response…</string>
+    <string name="game_started">"\u0020has started a game"</string>
+    <string name="accept">Accept</string>
+    <string name="wants_to_play">" wants to play with you"</string>
+    <string name="reject">Reject</string>
+</resources>
