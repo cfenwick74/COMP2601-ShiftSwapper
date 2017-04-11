@@ -44,6 +44,7 @@ public class ShiftSwapRepository {
 		ds = new SQLiteDataSource();
 
 		ds.setUrl(newDb);
+		System.out.println("DATABASE = " + newDb);
 	}
 	// find all shifts in the database
 	public List<Shift> findAllShifts() throws SQLException {
@@ -199,7 +200,7 @@ public class ShiftSwapRepository {
 			try (Statement st = connection.createStatement()) {
 				ResultSet rs = st.executeQuery(sql);
 				ScheduledShift current = null;
-				if (!rs.isAfterLast()) {
+				if (rs.next()) {
 					current = new ScheduledShift();
 					shifts.add(current);
 					current.setShift(new Shift(rs.getInt(ID), new Date(rs.getLong(TIME_IN)), new Date(rs.getLong(TIME_OUT))));
