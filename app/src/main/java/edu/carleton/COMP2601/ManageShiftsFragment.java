@@ -2,6 +2,7 @@ package edu.carleton.COMP2601;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.ActionBarContainer;
@@ -68,25 +69,11 @@ public class ManageShiftsFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		AcceptorReactor ar = AcceptorReactor.getInstance();
 		adapter = new MyShiftRecyclerViewAdapter(new ArrayList<ScheduledShift>(), mListener);
-		MasterScheduleResponseHandler masterScheduleResponseHandler = new MasterScheduleResponseHandler();
-		ar.register(Fields.MASTER_SCHEDULE_RESPONSE, masterScheduleResponseHandler);
+
 		if (getArguments() != null) {
 			mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
 		}
-
-		try {
-			JSONObject jo = new JSONObject();
-			jo.put(Fields.TYPE, Fields.MASTER_SCHEDULE_REQUEST);
-			jo.put(Fields.SOURCE, getArguments().get(SOURCE));
-			jo.put(Fields.DEST, "DB");
-			Event e = new JSONEvent(jo, ar.getEventSource(), new HashMap<String, Serializable>());
-			ar.put(e);
-		} catch (JSONException e1) {
-			e1.printStackTrace();
-		}
-
 	}
 
 	@Override
@@ -106,6 +93,20 @@ public class ManageShiftsFragment extends Fragment {
 			}
 
 			recyclerView.setAdapter(adapter);
+		}
+
+		AcceptorReactor ar = AcceptorReactor.getInstance();
+		MasterScheduleResponseHandler masterScheduleResponseHandler = new MasterScheduleResponseHandler();
+		ar.register(Fields.MASTER_SCHEDULE_RESPONSE, masterScheduleResponseHandler);
+		try {
+			JSONObject jo = new JSONObject();
+			jo.put(Fields.TYPE, Fields.MASTER_SCHEDULE_REQUEST);
+			jo.put(Fields.SOURCE, getArguments().get(SOURCE));
+			jo.put(Fields.DEST, "DB");
+			Event e = new JSONEvent(jo, ar.getEventSource(), new HashMap<String, Serializable>());
+			ar.put(e);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
 		}
 		return view;
 	}
@@ -141,6 +142,12 @@ public class ManageShiftsFragment extends Fragment {
 	public interface OnListFragmentInteractionListener {
 		// TODO: Update argument type and name
 		void onListFragmentInteraction(ScheduledShift item);
+
+
+
+
+
+
 	}
 
 	private class MasterScheduleResponseHandler implements EventHandler {
@@ -153,6 +160,7 @@ public class ManageShiftsFragment extends Fragment {
 			for (Serializable item: list) {
 				adapter.mValues.add(new ScheduledShift((HashMap<String, Serializable>)item));
 			}
+
 			((Activity)view.getContext()).runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
