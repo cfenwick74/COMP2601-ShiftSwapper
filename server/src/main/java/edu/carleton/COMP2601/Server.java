@@ -29,7 +29,7 @@ public class Server {
     private Reactor reactor;
     ThreadWithReactor twr;
 
-    private static final int PORT = 1024;
+    private static final int PORT = 1025;
     private static ServerSocket listener;
 
     public static void main(String[] args) {
@@ -67,9 +67,9 @@ public class Server {
         DisconnectRequestHandler disconnectRequestHandler = new DisconnectRequestHandler();
         reactor.register(Fields.CONNECT_REQUEST, connectRequestHandler);
         reactor.register(Fields.DISCONNECT_REQUEST, disconnectRequestHandler);
-        reactor.register(Fields.SHIFT_SWAP, dispatchEventHandler);
+        reactor.register(Fields.SHIFT_SWAP_REQUEST, dispatchEventHandler);
         reactor.register(Fields.SHIFT, dispatchEventHandler);
-        reactor.register(Fields.SHIFT_RELEASE, dispatchEventHandler);
+        reactor.register(Fields.SHIFT_RELEASE_REQUEST, dispatchEventHandler);
 
         try {
             listener = new ServerSocket(PORT);
@@ -104,6 +104,7 @@ public class Server {
         public void handleEvent(Event event) {
             // TODO: add employee or change employee status to "connected"
             int answer = database.login(Integer.parseInt((String)event.get(Fields.ID)), (String)event.get(Fields.PASSWORD));
+            System.out.println("in connect request handler. answer: " + answer);
 
             try {
                 JSONObject jo = new JSONObject();

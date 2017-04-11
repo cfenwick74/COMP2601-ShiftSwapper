@@ -76,7 +76,9 @@ public class ShiftSwapRepository {
 				st.setInt(1, id);
 				st.setString(2, pass);
 				ResultSet rs = st.executeQuery();
-				if(rs.getBoolean("isAdmin"))
+
+				boolean isAdmin = ("true".equalsIgnoreCase(rs.getString("isAdmin")));
+				if (isAdmin)
 					return 1;
 				else
 					return 0;

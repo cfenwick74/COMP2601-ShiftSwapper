@@ -1,7 +1,9 @@
 package edu.carleton.COMP2601;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 	private String empId;
 	private String pwd = "1234";
 	private String ipaddr = "192.168.1.110";
-	private int port = 1024;
+	private int port = 1025;
 	ProgressBar spinner;
 	static LoginActivity instance;
 	JSONEventSource e;
@@ -69,6 +71,38 @@ public class LoginActivity extends AppCompatActivity {
 		ipaddr = host.getText().toString();
 		empId = userName.getText().toString();
 		pwd = password.getText().toString();
+		final boolean blankEmp = empId.equals("");
+		final boolean blankPass = pwd.equals("");
+		if (blankEmp || blankPass) {
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					StringBuilder title = new StringBuilder("Please enter your ");
+
+					AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this).create();
+					if (blankEmp && blankPass) {
+						title.append("employee id and password");
+					} else if (!blankPass) {
+							title.append("employee id");
+					} else {
+						title.append("password");
+					}
+					dialog.setTitle(title);
+					dialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+								}
+							});
+					dialog.show();
+				}
+			});
+			return;
+		}
+
+
 		port = Integer.parseInt(port_field.getText().toString());
 
 		ar.init(port, ipaddr);
@@ -126,17 +160,43 @@ public class LoginActivity extends AppCompatActivity {
 	private class ConnectResponseHandler implements EventHandler {
 		@Override
 		public void handleEvent(Event event) {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(LoginActivity.this, "Connected!", Toast.LENGTH_SHORT).show();
-					spinner.setVisibility(View.GONE);
-				}
-			});
+			System.out.println("In ConnectResponseHandler");
+			Event e = event;
+			boolean isAdmin = "true".equalsIgnoreCase(e.get(Fields.IS_ADMIN).toString());
+			boolean status = "true".equalsIgnoreCase(e.get(Fields.STATUS).toString());
+			System.out.println(isAdmin);
 
-			Intent intent = new Intent(LoginActivity.this, UserListActivity.class);
+//			runOnUiThread(new Runnable() {
+//				@Override
+//				public void run() {
+//					Toast.makeText(LoginActivity.this, "Connected!", Toast.LENGTH_SHORT).show();
+//					spinner.setVisibility(View.GONE);
+//				}
+//			});
+
+			Intent intent;
+
+			if (status) {
+				if (isAdmin) {
+					intent = new Intent(LoginActivity.this, AdminActivity.class);
+					startActivity(intent);
+				} else {
+					intent = new Intent(LoginActivity.this, ShiftListActivity.class);
+					startActivity(intent);
+				}
+			} else {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(LoginActivity.this, "Invalid employee id or password!", Toast.LENGTH_LONG).show();
+						spinner.setVisibility(View.GONE);
+					}
+				});
+			}
+
+//			Intent intent = new Intent(LoginActivity.this, UserListActivity.class);
 //			intent.putExtra("name", name);
-			startActivity(intent);
+//			startActivity(intent);
 		}
 	}
 

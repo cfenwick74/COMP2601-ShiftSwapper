@@ -6,7 +6,6 @@ dependencies {
     compile 'org.xerial:sqlite-jdbc:3.7.2'
     testCompile 'junit:junit:4.12'
     testCompile 'commons-io:commons-io:2.4'
-    compile 'com.pushtorefresh.storio:sqlite:1.12.3'
 }
 
 sourceCompatibility = "1.7"
