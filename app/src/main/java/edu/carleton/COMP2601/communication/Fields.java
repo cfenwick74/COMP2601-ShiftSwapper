@@ -58,4 +58,10 @@ public class Fields {
 	public static final String END_SHIFTS = "END_SHIFTS";
 	public static final String EMP_SCHEDULE_REQUEST = "EMP_SCHEDULE_REQUEST";
 	public static final String EMP_SCHEDULE_RESPONSE = "EMP_SCHEDULE_RESPONSE";
+	public static final String EMPLOYEE_ID = "EMPLOYEE_ID";
+
+	public static final String EMPLOYEES = "EMPLOYEES";
+	public static final String UNASSIGN_SHIFT_REQUEST = "UNASSIGN_SHIFT_REQUEST";
+	public static final String FIND_ALL_EMPLOYEES_REQUEST = "FIND_ALL_EMPLOYEES_REQUEST";
+	public static final String FIND_ALL_EMPLOYEES_RESPONSE = "FIND_ALL_EMPLOYEES__RESPONSE";
 }
