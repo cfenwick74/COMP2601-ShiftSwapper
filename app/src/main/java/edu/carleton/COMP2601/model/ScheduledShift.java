@@ -1,9 +1,11 @@
 package edu.carleton.COMP2601.model;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by carolyn on 2017-04-11.
@@ -14,6 +16,13 @@ public class   ScheduledShift implements Serializable{
 
 	public ScheduledShift(HashMap<String, Serializable> shiftMap) {
 		HashMap<String, Serializable> map = shiftMap;
+		shift = new Shift((HashMap<String, Serializable>) map.get("shift"));
+		for (Serializable item : (ArrayList<Serializable>)map.get("scheduledEmployees")) {
+			scheduledEmployees.add(new Employee((HashMap<String, Serializable>)item));
+		}
+	}
+
+	public ScheduledShift() {
 
 	}
 

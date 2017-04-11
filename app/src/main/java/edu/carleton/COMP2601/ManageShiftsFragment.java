@@ -14,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.carleton.COMP2601.communication.AcceptorReactor;
@@ -22,6 +24,8 @@ import edu.carleton.COMP2601.communication.EventHandler;
 import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.communication.JSONEvent;
 import edu.carleton.COMP2601.dummy.DummyShiftContent;
+import edu.carleton.COMP2601.model.Employee;
+import edu.carleton.COMP2601.model.ScheduledShift;
 import edu.carleton.COMP2601.model.Shift;
 
 /**
@@ -138,6 +142,13 @@ public class ManageShiftsFragment extends Fragment {
 		@Override
 		public void handleEvent(Event event) {
 			System.out.println("In schedule response handler");
+			ArrayList<Serializable> list = (ArrayList<Serializable>) event.get(Fields.MASTER_SCHEDULE);
+			for (Serializable item: list) {
+				String f = "Fuck";
+
+			}
+			ScheduledShift shift = new ScheduledShift();
+			Employee employee = new Employee();
 		}
 	}
 

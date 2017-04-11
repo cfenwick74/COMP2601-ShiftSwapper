@@ -1,6 +1,8 @@
 package edu.carleton.COMP2601.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -14,7 +16,13 @@ public class Shift implements Serializable {
 
 	public Shift(HashMap<String, Serializable> shiftMap) {
 		HashMap<String, Serializable> map = shiftMap;
-
+		this.id = Integer.parseInt((String)map.get("id"));
+		try {
+			this.start = new SimpleDateFormat().parse((String)map.get("start"));
+			this.end = new SimpleDateFormat().parse((String)map.get("end"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Shift(int id, Date start, Date end) {

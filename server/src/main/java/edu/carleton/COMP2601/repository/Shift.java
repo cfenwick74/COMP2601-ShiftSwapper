@@ -1,15 +1,29 @@
 package edu.carleton.COMP2601.repository;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by carolyn on 2017-04-09.
  */
 public class Shift implements Serializable {
-	private int id;
+	public int id;
 	private Date start;
 	private Date end;
+
+	public Shift(HashMap<String, Serializable> shiftMap) {
+		HashMap<String, Serializable> map = shiftMap;
+		this.id = Integer.parseInt((String)map.get("id"));
+		try {
+			this.start = new SimpleDateFormat().parse((String)map.get("start"));
+			this.end = new SimpleDateFormat().parse((String)map.get("end"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public Shift(int id, Date start, Date end) {
 		this(start, end);

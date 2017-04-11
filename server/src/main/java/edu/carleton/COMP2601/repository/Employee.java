@@ -1,6 +1,7 @@
 package edu.carleton.COMP2601.repository;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * Created by carolyn on 2017-04-09.
@@ -22,6 +23,15 @@ private int id;
 		this.address = address;
 		this.isAdmin = isAdmin;
 		this.password = password;
+	}
+
+	public Employee(HashMap<String, Serializable> map) {
+
+		this.name = map.containsKey("name")? map.get("name").toString():"";
+		this.address = map.containsKey("address")? map.get("address").toString():"";
+		this.isAdmin = map.containsKey("admin") && Boolean.parseBoolean(map.get("admin").toString());
+		this.password = map.containsKey("password")? map.get("password").toString(): "";
+		this.id = map.containsKey("ID")? Integer.parseInt(map.get("ID").toString()): -1;
 	}
 
 	public Employee() {
