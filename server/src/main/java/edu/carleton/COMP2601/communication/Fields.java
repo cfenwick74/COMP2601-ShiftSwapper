@@ -55,4 +55,5 @@ public class Fields {
 	public static final String MASTER_SCHEDULE_RESPONSE = "MASTER_SCHEDULE_RESPONSE";
 	public static final String MASTER_SCHEDULE = "MASTER_SCHEDULE";
 	public static final String MASTER_SCHEDULE_ITEM = "MASTER_SCHEDULE_ITEM";
+    public static final String END_SHIFTS = "END_SHIFTS";
 }
