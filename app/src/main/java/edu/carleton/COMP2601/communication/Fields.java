@@ -39,7 +39,6 @@ public class Fields {
 	public static final int USER_ISADMIN = 1;
 	public static final int USER_ISEMPLOYEE = 0;
 
-
 	public static final String STATUS = "Status";
 	public static final String TRUE = "True";
 	public static final String FALSE = "False";
@@ -64,4 +63,5 @@ public class Fields {
 	public static final String UNASSIGN_SHIFT_REQUEST = "UNASSIGN_SHIFT_REQUEST";
 	public static final String FIND_ALL_EMPLOYEES_REQUEST = "FIND_ALL_EMPLOYEES_REQUEST";
 	public static final String FIND_ALL_EMPLOYEES_RESPONSE = "FIND_ALL_EMPLOYEES__RESPONSE";
+	public static final String CURRENT_EMPLOYEE = "CURRENT_EMPLOYEE";
 }

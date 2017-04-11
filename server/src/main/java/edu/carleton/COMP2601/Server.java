@@ -77,11 +77,9 @@ public class Server {
         reactor.register(Fields.SHIFT, dispatchEventHandler);
         reactor.register(Fields.SHIFT_RELEASE_REQUEST, dispatchEventHandler);
         reactor.register(Fields.MASTER_SCHEDULE_REQUEST, masterScheduleRequestHandler);
-
         reactor.register(Fields.ASSIGN_SHIFT_REQUEST, assignShiftRequestHandler);
         reactor.register(Fields.UNASSIGN_SHIFT_REQUEST, assignShiftRequestHandler);
-
-        reactor.register(Fields.FIND_ALL_EMPLOYEES_REQUEST, masterScheduleRequestHandler);
+        reactor.register(Fields.FIND_ALL_EMPLOYEES_REQUEST, findAllEmployeesHandler);
 
         try {
             listener = new ServerSocket(PORT);

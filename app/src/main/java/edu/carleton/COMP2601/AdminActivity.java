@@ -92,6 +92,7 @@ public class AdminActivity extends AppCompatActivity implements ManageShiftsFrag
 	@Override
 	public void onListFragmentInteraction(ScheduledShift item) {
 		Intent i = new Intent(AdminActivity.this, ShiftAdminActivity.class);
+		i.putExtra(Fields.CURRENT_EMPLOYEE, currentEmployee);
 		i.putExtra("scheduledShift", item);
 		startActivity(i);
 	}
