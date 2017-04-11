@@ -1,11 +1,12 @@
 package edu.carleton.COMP2601.repository;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by carolyn on 2017-04-09.
  */
-public class Shift {
+public class Shift implements Serializable {
 	private int id;
 	private Date start;
 	private Date end;

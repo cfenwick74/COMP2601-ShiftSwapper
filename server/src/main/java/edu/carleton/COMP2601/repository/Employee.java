@@ -1,9 +1,11 @@
 package edu.carleton.COMP2601.repository;
 
+import java.io.Serializable;
+
 /**
  * Created by carolyn on 2017-04-09.
  */
-public class Employee {
+public class Employee implements Serializable {
 private int id;
 	private String name;
 	private String address;

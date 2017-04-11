@@ -36,7 +36,7 @@ public class MyShiftRecyclerViewAdapter extends RecyclerView.Adapter<MyShiftRecy
 	public void onBindViewHolder(final ViewHolder holder, int position) {
 		Shift shift = mValues.get(position);
 		holder.mItem = shift;
-		holder.mIdView.setText(""+shift.getID());
+		holder.mIdView.setText(""+shift.getId());
 		holder.mContentView.setText(shift.getStart() + " \n " +shift.getStart());
 
 		holder.mView.setOnClickListener(new View.OnClickListener() {

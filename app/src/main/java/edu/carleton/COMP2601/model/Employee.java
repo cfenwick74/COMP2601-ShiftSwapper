@@ -1,18 +1,16 @@
 package edu.carleton.COMP2601.model;
 
+import java.io.Serializable;
+
 /**
  * Created by carolyn on 2017-04-09.
  */
-public class Employee {
+public class Employee implements Serializable {
 private int id;
 	private String name;
 	private String address;
 	private boolean isAdmin;
 	private String password;
-
-	public Employee() {
-
-	}
 
 	public Employee(int id, String name, String address, boolean isAdmin, String password) {
 		this(name, address, isAdmin, password);
@@ -24,6 +22,10 @@ private int id;
 		this.address = address;
 		this.isAdmin = isAdmin;
 		this.password = password;
+	}
+
+	public Employee() {
+		
 	}
 
 	public boolean isAdmin() {
@@ -73,6 +75,10 @@ private int id;
 		result = 31 * result + (isAdmin ? 1 : 0);
 		result = 31 * result + (password != null ? password.hashCode() : 0);
 		return result;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
 

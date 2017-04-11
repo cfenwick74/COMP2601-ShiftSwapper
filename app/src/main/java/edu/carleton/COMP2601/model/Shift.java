@@ -1,12 +1,13 @@
 package edu.carleton.COMP2601.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by carolyn on 2017-04-09.
  */
-public class Shift {
-	private int id;
+public class Shift implements Serializable {
+	public int id;
 	private Date start;
 	private Date end;
 
@@ -14,7 +15,6 @@ public class Shift {
 		this(start, end);
 		this.id = id;
 	}
-
 	public Shift(Date start, Date end) {
 		this.start = start;
 		this.end = end;
@@ -54,12 +54,7 @@ public class Shift {
 		return end;
 	}
 
-	public int getID() {
+	public int getId() {
 		return id;
 	}
-//
-//	public String toString() {
-//
-//		return res;
-//	}
 }
