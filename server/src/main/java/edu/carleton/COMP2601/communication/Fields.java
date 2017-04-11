@@ -43,5 +43,11 @@ public class Fields {
 	public static final String STATUS = "Status";
 	public static final String TRUE = "True";
 	public static final String FALSE = "False";
+	public static final String DATE_IN = "Date_In";
+	public static final String DATE_OUT = "Date_Out";
+	public static final String REQUESTORS_SHIFT = "REQUESTORS_SHIFT";
+	public static final String REQUESTEES_SHIFT = "REQUESTEES_SHIFT";
+
+
 
 }

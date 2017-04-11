@@ -30,6 +30,10 @@ private int id;
 		return name;
 	}
 
+	public int getID() {
+		return id;
+	}
+
 	public String getAddress() {
 		return address;
 	}

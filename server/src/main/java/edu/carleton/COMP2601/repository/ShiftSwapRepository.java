@@ -156,6 +156,22 @@ public class ShiftSwapRepository {
 		return shifts;
 	}
 
+	public List<Employee> findEledgibleEmployeesForShift(int e_id, Date date){
+		String sql = "SELECT * FROM employees WHERE employee_id NOT IN (SELECT employee_id FROM schedule where shift_id IN (SELECT shift_id FROM shifts WHERE date = ?)) AND employee_id != ?";
+
+		try (Connection connection = ds.getConnection()) {
+			try (PreparedStatement st = connection.prepareStatement(sql)) {
+				st.setString(1,df.format(date));
+				st.setInt(2,e_id);
+				ResultSet rs = st.executeQuery();
+				return getEmployees(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	// get shifts from a resultSet
 	private ArrayList<Shift> getShifts(ResultSet rs) throws SQLException {
 		ArrayList<Shift> shiftsFound = new ArrayList<>();
@@ -163,6 +179,15 @@ public class ShiftSwapRepository {
 			shiftsFound.add(new Shift(rs.getInt(ID), new Date(rs.getLong(TIME_IN)), new Date(rs.getLong(TIME_OUT))));
 		}
 		return shiftsFound;
+	}
+
+	// get shifts from a resultSet
+	private ArrayList<Employee> getEmployees(ResultSet rs) throws SQLException {
+		ArrayList<Employee> employees = new ArrayList<>();
+		while (rs.next()) {
+			employees.add(new Employee(rs.getInt("employee_id"), rs.getString("name"),rs.getString("address"), rs.getBoolean("isAdmin"), rs.getString("Password")));
+		}
+		return employees;
 	}
 
 	//add a shift to an employee's schedule
@@ -179,5 +204,37 @@ public class ShiftSwapRepository {
 			return false;
 		}
 
+	}
+
+	public void addToRequestShiftChange(int requesting_employee_id, ArrayList<Employee> result, int shift_id) {
+		String sql = "INSERT INTO shiftchange(requestor_schdule_id, requestee_employee_id, requestee_schedule_id) values ((SELECT schedule_id FROM schedule WHERE shift_id = ? AND employee_id = ?),?,NULL)";
+		try (Connection connection = ds.getConnection()) {
+			try (PreparedStatement st = connection.prepareStatement(sql)) {
+				for(Employee e: result) {
+					st.setInt(1, shift_id);
+					st.setInt(2, requesting_employee_id);
+					st.setInt(3, e.getID());
+					st.execute();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addToRequestShiftChange(int requesting_employee_id, int requesting_shift_id, int requestee_employee_id, int requestee_shift_id) {
+		String sql = "INSERT INTO shiftchange(requestor_schdule_id, requestee_employee_id, requestee_schedule_id) values ((SELECT schedule_id FROM schedule WHERE shift_id = ? AND employee_id = ?),?,(SELECT schedule_id FROM schedule WHERE shift_id = ? AND employee_id = ?))";
+		try (Connection connection = ds.getConnection()) {
+			try (PreparedStatement st = connection.prepareStatement(sql)) {
+					st.setInt(1, requesting_shift_id);
+					st.setInt(2, requesting_employee_id);
+					st.setInt(3, requesting_employee_id);
+					st.setInt(4, requestee_shift_id);
+					st.setInt(5, requestee_employee_id);
+					st.execute();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
