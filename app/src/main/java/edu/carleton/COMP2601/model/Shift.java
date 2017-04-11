@@ -2,6 +2,7 @@ package edu.carleton.COMP2601.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by carolyn on 2017-04-09.
@@ -10,6 +11,11 @@ public class Shift implements Serializable {
 	public int id;
 	private Date start;
 	private Date end;
+
+	public Shift(HashMap<String, Serializable> shiftMap) {
+		HashMap<String, Serializable> map = shiftMap;
+
+	}
 
 	public Shift(int id, Date start, Date end) {
 		this(start, end);

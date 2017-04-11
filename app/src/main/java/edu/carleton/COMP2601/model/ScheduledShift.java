@@ -2,6 +2,7 @@ package edu.carleton.COMP2601.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -10,6 +11,11 @@ import java.util.List;
 public class   ScheduledShift implements Serializable{
 	Shift shift;
 	List<Employee> scheduledEmployees =  new ArrayList<>();
+
+	public ScheduledShift(HashMap<String, Serializable> shiftMap) {
+		HashMap<String, Serializable> map = shiftMap;
+
+	}
 
 	public Shift getShift() {
 		return shift;
