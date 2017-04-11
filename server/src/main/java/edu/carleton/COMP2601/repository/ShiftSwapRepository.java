@@ -209,7 +209,7 @@ public class ShiftSwapRepository {
 	}
 
 	public void addToRequestShiftChange(int requesting_employee_id, ArrayList<Employee> result, int shift_id) {
-		String sql = "INSERT INTO shiftchange(requestor_schdule_id, requestee_employee_id, requestee_schedule_id) values ((SELECT schedule_id FROM schedule WHERE shift_id = ? AND employee_id = ?),?,NULL)";
+		String sql = "INSERT INTO shiftchange(requestor_schedule_id, requestee_employee_id, requestee_schedule_id) values ((SELECT schedule_id FROM schedule WHERE shift_id = ? AND employee_id = ?),?,NULL)";
 		try (Connection connection = ds.getConnection()) {
 			try (PreparedStatement st = connection.prepareStatement(sql)) {
 				for(Employee e: result) {
@@ -225,7 +225,7 @@ public class ShiftSwapRepository {
 	}
 
 	public void addToRequestShiftChange(int requesting_employee_id, int requesting_shift_id, int requestee_employee_id, int requestee_shift_id) {
-		String sql = "INSERT INTO shiftchange(requestor_schdule_id, requestee_employee_id, requestee_schedule_id) values ((SELECT schedule_id FROM schedule WHERE shift_id = ? AND employee_id = ?),?,(SELECT schedule_id FROM schedule WHERE shift_id = ? AND employee_id = ?))";
+		String sql = "INSERT INTO shiftchange(requestor_schedule_id, requestee_employee_id, requestee_schedule_id) values ((SELECT schedule_id FROM schedule WHERE shift_id = ? AND employee_id = ?),?,(SELECT schedule_id FROM schedule WHERE shift_id = ? AND employee_id = ?))";
 		try (Connection connection = ds.getConnection()) {
 			try (PreparedStatement st = connection.prepareStatement(sql)) {
 					st.setInt(1, requesting_shift_id);
