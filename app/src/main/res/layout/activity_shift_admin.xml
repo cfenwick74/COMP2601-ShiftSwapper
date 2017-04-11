@@ -16,12 +16,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
+        android:inputType="text"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"/>
 
     <AutoCompleteTextView
         android:id="@+id/emp2"
+        android:inputType="text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
@@ -32,7 +34,7 @@
 
     <AutoCompleteTextView
         android:id="@+id/emp3"
-        android:text="AutoCompleteTextView"
+        android:inputType="text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/emp2"
@@ -45,6 +47,7 @@
         android:id="@+id/emp4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="text"
         android:layout_marginTop="54dp"
         android:layout_below="@+id/emp3"
         android:layout_alignParentStart="true"

@@ -15,7 +15,7 @@ public class AssignShiftRequestHandler implements EventHandler {
     @Override
     public void handleEvent(Event event) {
         System.out.println("In AssignShiftRequest handler");
-        String action = event.get(Fields.TYPE).toString();
+        String action = event.getType();
         int shift_id = Integer.parseInt(event.get(Fields.SHIFT).toString());
         int employee_id = Integer.parseInt(event.get(Fields.EMPLOYEE_ID).toString());
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +34,7 @@ public class ShiftAdminActivity extends AppCompatActivity {
 	private String currentEmployee;
 	private ArrayList<AutoCompleteTextView> textViews;
 	private ArrayAdapter<String> names;
-	private HashMap<String, Integer> employeeIds;
+	private HashMap<String, Employee> employeesById = new HashMap<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class ShiftAdminActivity extends AppCompatActivity {
 		List<Employee> employees = shift.getScheduledEmployees();
 
 
-		for (int i = 0; i < employees.size(); i++) {
+		for (int i = 0; i < 4 && i < employees.size(); i++) {
 			if (employees.get(i) != null) {
 				textViews.get(i).setText(employees.get(i).getName());
 			}
@@ -87,23 +88,22 @@ public class ShiftAdminActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				for (int i = 0; i < textViews.size(); i++) {
-					String newAssigneeName = textViews.get(0).getText().toString();
-					if (shift.getScheduledEmployees().size() > i) {
-						String oldAssigneeName = shift.getScheduledEmployees().get(i).getName();
-						if (!newAssigneeName.equals(oldAssigneeName)) {
-							Integer oldId = employeeIds.get(oldAssigneeName);
-							if (oldId != 0) {
-								sendAssignmentRequest(Fields.UNASSIGN_SHIFT_REQUEST, oldId, shift.getShift().getId());
-							}
-							Integer newId = employeeIds.get(newAssigneeName);
-							sendAssignmentRequest(Fields.ASSIGN_SHIFT_REQUEST, newId, shift.getShift().getId());
+					Employee newAssignee = employeesById.get(textViews.get(i).getText().toString());
+					Employee oldAssignee = i < shift.getScheduledEmployees().size()? shift.getScheduledEmployees().get(i): null;
+					if (oldAssignee != null && !oldAssignee.getName().equals(textViews.get(i).getText().toString())) {
+						sendAssignmentRequest(Fields.UNASSIGN_SHIFT_REQUEST, oldAssignee.getID(), shift.getShift().getId());
+						if (newAssignee != null) {
+							sendAssignmentRequest(Fields.ASSIGN_SHIFT_REQUEST, newAssignee.getID(), shift.getShift().getId());
 						}
-					} else if (!newAssigneeName.equals("")){
-						Integer newId = employeeIds.get(newAssigneeName);
-						sendAssignmentRequest(Fields.ASSIGN_SHIFT_REQUEST, newId, shift.getShift().getId());
+					} else if (oldAssignee == null && newAssignee != null) {
+							sendAssignmentRequest(Fields.ASSIGN_SHIFT_REQUEST, newAssignee.getID(), shift.getShift().getId());
+						}
 					}
-				}
+				Toast.makeText(getBaseContext(), "Changes saved", Toast.LENGTH_LONG).show();
+				onBackPressed();
+
 			}
+
 		};
 
 	}
@@ -114,8 +114,9 @@ public class ShiftAdminActivity extends AppCompatActivity {
 			JSONObject jo = new JSONObject();
 			jo.put(Fields.TYPE, requestType);
 			jo.put(Fields.SOURCE, currentEmployee);
-			jo.put(Fields.EMPLOYEE_ID, employeeID);
-			jo.put(Fields.SHIFT, shift_id);
+			m.put(Fields.EMPLOYEE_ID, employeeID);
+			m.put(Fields.SHIFT, shift_id);
+			jo.put(Fields.DEST, Fields.DATABASE);
 			ar.put(new JSONEvent(jo, null, m));
 		} catch (JSONException e1) {
 			e1.printStackTrace();
@@ -129,17 +130,17 @@ public class ShiftAdminActivity extends AppCompatActivity {
 		@Override
 		public void handleEvent(Event event) {
 			System.out.println("In find all emps response handler");
-			employeeIds = new HashMap<>();
+			employeesById = new HashMap<>();
 
 			for ( Serializable item:(List<Serializable>)event.getMap().get(Fields.EVENT_CONTENT)) {
 				Employee emp = new Employee((HashMap<String, Serializable>) item);
-				employeeIds.put(emp.getName(), emp.getID());
+				employeesById.put(emp.getName(), emp);
 			}
 			((Activity)textViews.get(0).getContext()).runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
 					for (AutoCompleteTextView view: textViews) {
-						view.setAdapter(new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_dropdown_item_1line, employeeIds.keySet().toArray(new String[employeeIds.size()])));
+						view.setAdapter(new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_dropdown_item_1line, employeesById.keySet().toArray(new String[employeesById.size()])));
 					}
 
 				}

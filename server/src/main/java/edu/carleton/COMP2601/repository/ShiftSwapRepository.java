@@ -283,6 +283,7 @@ public class ShiftSwapRepository {
 				st.setInt(1,employee_id);
 				st.setInt(2,shift_id);
 				st.execute();
+				connection.commit();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
