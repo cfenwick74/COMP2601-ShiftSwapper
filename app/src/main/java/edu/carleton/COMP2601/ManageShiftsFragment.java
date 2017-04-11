@@ -77,6 +77,12 @@ public class ManageShiftsFragment extends Fragment {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		refreshList();
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_manage_shift_list, container, false);
@@ -95,6 +101,11 @@ public class ManageShiftsFragment extends Fragment {
 			recyclerView.setAdapter(adapter);
 		}
 
+		refreshList();
+		return view;
+	}
+
+	private void refreshList() {
 		AcceptorReactor ar = AcceptorReactor.getInstance();
 		MasterScheduleResponseHandler masterScheduleResponseHandler = new MasterScheduleResponseHandler();
 		ar.register(Fields.MASTER_SCHEDULE_RESPONSE, masterScheduleResponseHandler);
@@ -108,7 +119,6 @@ public class ManageShiftsFragment extends Fragment {
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-		return view;
 	}
 
 

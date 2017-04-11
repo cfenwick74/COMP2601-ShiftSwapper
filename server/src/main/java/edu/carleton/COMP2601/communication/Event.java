@@ -90,4 +90,8 @@ public class Event implements EventStream, Serializable {
 	}
 
 	public HashMap<String, Serializable> getMap(){return map;}
+
+	public String getType() {
+		return type;
+	}
 }

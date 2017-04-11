@@ -4,7 +4,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,7 +12,6 @@ import edu.carleton.COMP2601.communication.EventHandler;
 import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.communication.JSONEvent;
 import edu.carleton.COMP2601.repository.Employee;
-import edu.carleton.COMP2601.repository.Shift;
 import edu.carleton.COMP2601.repository.ShiftSwapRepository;
 
 /**
@@ -29,10 +27,12 @@ public class FindAllEmployeesHandler implements EventHandler {
         try {
             ArrayList<Employee> employees = (ArrayList<Employee>) database.findAllEmployees();
             JSONObject jo = new JSONObject();
-            jo.put(Fields.TYPE, Fields.FIND_ALL_EMPLOYEES_REQUEST);
+
+            jo.put(Fields.TYPE, Fields.FIND_ALL_EMPLOYEES_RESPONSE);
             jo.put(Fields.SOURCE, Fields.DATABASE);
-            jo.put(Fields.EMPLOYEES, employees);
+            jo.put(Fields.DEST, "");
             HashMap<String, Serializable> a = new HashMap();
+            a.put(Fields.EVENT_CONTENT, employees);
             event.putEvent(new JSONEvent(jo, null, a));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

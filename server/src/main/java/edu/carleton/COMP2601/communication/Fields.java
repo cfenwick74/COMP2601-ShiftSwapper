@@ -64,4 +64,5 @@ public class Fields {
 	public static final String UNASSIGN_SHIFT_REQUEST = "UNASSIGN_SHIFT_REQUEST";
 	public static final String FIND_ALL_EMPLOYEES_REQUEST = "FIND_ALL_EMPLOYEES_REQUEST";
 	public static final String FIND_ALL_EMPLOYEES_RESPONSE = "FIND_ALL_EMPLOYEES__RESPONSE";
+	public static final String CURRENT_EMPLOYEE = "CURRENT_EMPLOYEE";
 }
