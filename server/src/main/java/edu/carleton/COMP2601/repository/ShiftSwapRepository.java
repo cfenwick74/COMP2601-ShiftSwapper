@@ -198,22 +198,28 @@ public class ShiftSwapRepository {
 		try (Connection connection = ds.getConnection()) {
 			try (Statement st = connection.createStatement()) {
 				ResultSet rs = st.executeQuery(sql);
-				while (rs.next()) {
-					ScheduledShift current = new ScheduledShift();
+				ScheduledShift current = null;
+				if (!rs.isAfterLast()) {
+					current = new ScheduledShift();
 					shifts.add(current);
 					current.setShift(new Shift(rs.getInt(ID), new Date(rs.getLong(TIME_IN)), new Date(rs.getLong(TIME_OUT))));
-					while (!rs.isAfterLast() && rs.getInt("shift_id") == current.getShift().getId()) {
-						if (rs.getInt("employee_id") != 0) {
-							Employee employee = new Employee();
-							employee.setId(rs.getInt("employee_id"));
-							employee.setName(rs.getString("name"));
-							current.getScheduledEmployees().add(employee);
-						}
-						rs.next();
+				}
+				do {
+					if (rs.getInt("shift_id") != current.getShift().getId()) {
+						current = new ScheduledShift();
+						shifts.add(current);
+						current.setShift(new Shift(rs.getInt(ID), new Date(rs.getLong(TIME_IN)), new Date(rs.getLong(TIME_OUT))));
+					}
+					if (rs.getInt("employee_id") != 0) {
+						Employee employee = new Employee();
+						employee.setId(rs.getInt("employee_id"));
+						employee.setName(rs.getString("name"));
+						current.getScheduledEmployees().add(employee);
 					}
 
-				}
-			}
+				} while (rs.next());
+
+	}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
