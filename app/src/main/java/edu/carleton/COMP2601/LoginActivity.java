@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
 	Button loginBtn;
 	EditText userName, password, host, port_field;
-	private String empId;
+	private String empId = "1";
 	private String pwd = "1234";
 	private String ipaddr = "192.168.1.110";
 	private int port = 1025;
@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 		password = (EditText) findViewById(R.id.password_text);
 		host = (EditText) findViewById(R.id.ip_text);
 		port_field = (EditText) findViewById(R.id.port_text);
+		userName.setText(empId);
 		password.setText(pwd);
 		host.setText(ipaddr);
 		port_field.setText(String.valueOf(port));

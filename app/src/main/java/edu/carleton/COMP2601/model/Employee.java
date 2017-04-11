@@ -10,6 +10,10 @@ private int id;
 	private boolean isAdmin;
 	private String password;
 
+	public Employee() {
+
+	}
+
 	public Employee(int id, String name, String address, boolean isAdmin, String password) {
 		this(name, address, isAdmin, password);
 		this.id = id;

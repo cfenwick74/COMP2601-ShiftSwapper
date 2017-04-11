@@ -61,7 +61,7 @@ public class ManageShiftsFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		AcceptorReactor ar = AcceptorReactor.getInstance();
 		MasterScheduleResponseHandler masterScheduleResponseHandler = new MasterScheduleResponseHandler();
-		ar.register(Fields.SHIFT_LIST_RESPONSE, masterScheduleResponseHandler);
+		ar.register(Fields.MASTER_SCHEDULE_RESPONSE, masterScheduleResponseHandler);
 		if (getArguments() != null) {
 			mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
 		}
@@ -70,8 +70,9 @@ public class ManageShiftsFragment extends Fragment {
 			JSONObject jo = new JSONObject();
 			jo.put(Fields.TYPE, Fields.MASTER_SCHEDULE_REQUEST);
 			jo.put(Fields.SOURCE, getArguments().get(SOURCE));
-			jo.put(Fields.DEST, "");
-			ar.put(new JSONEvent(jo, ar.getEventSource(), new HashMap<String, Serializable>()));
+			jo.put(Fields.DEST, "DB");
+			Event e = new JSONEvent(jo, ar.getEventSource(), new HashMap<String, Serializable>());
+			ar.put(e);
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
