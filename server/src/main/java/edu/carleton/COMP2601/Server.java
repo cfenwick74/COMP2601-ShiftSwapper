@@ -33,7 +33,7 @@ public class Server {
     private Reactor reactor;
     ThreadWithReactor twr;
 
-    private static final int PORT = 1025;
+    private static final int PORT = 1024;
     private static ServerSocket listener;
 
     public static void main(String[] args) {

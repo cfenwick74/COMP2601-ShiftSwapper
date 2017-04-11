@@ -211,8 +211,14 @@ public class ShiftListActivity extends AppCompatActivity {
 		@Override
 		public void handleEvent(Event event) {
 			items.clear();
+			int index = 0;
 			for(HashMap<String, Serializable> s : (ArrayList<HashMap<String,Serializable>>)event.get(Fields.SHIFT)){
-				items.add(new DummyContent.DummyItem(s.get("id").toString(),s.get("start").toString(),s.get("end").toString()));
+				items.add(new DummyContent.DummyItem(Integer.toString(index), "Your Shift: " + s.get("start").toString() + " to " + s.get("end").toString(), ""));
+				index++;
+			}
+			for(HashMap<String, Serializable> s : (ArrayList<HashMap<String,Serializable>>)event.get(Fields.REQUESTORS_SHIFT)){
+				items.add(new DummyContent.DummyItem(Integer.toString(index), "Requested Shift Change: " + s.get("start").toString() + " to " + s.get("end").toString(), ""));
+				index++;
 			}
 			a.runOnUiThread(new Runnable() {
 				@Override

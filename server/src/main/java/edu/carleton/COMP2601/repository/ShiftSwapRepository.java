@@ -155,6 +155,24 @@ public class ShiftSwapRepository {
 		}
 		return shifts;
 	}
+	public List<ShiftChangeRequest> findRequestedShiftChangesForEmployee(int employeeId){
+		ArrayList<ShiftChangeRequest> shifts = new ArrayList<>();
+		String sql = "SELECT a.*, b.* FROM shifts a, shifts b, schedule aa, schedule bb, shiftchange "+
+						"WHERE aa.schedule_id = shiftchange.requestor_schedule_id AND bb.schedule_id = shiftchange.requestee_schedule_id"+
+						"AND a.shift_id = aa.shift_id AND b.shift_id = bb.shift_id and shiftchange.requestee_employee_id = ?";
+
+		try (Connection connection = ds.getConnection()) {
+			try (PreparedStatement st = connection.prepareStatement(sql)) {
+				st.setInt(1,employeeId);
+				ResultSet rs = st.executeQuery();
+				shifts.addAll(getRequestedShifts(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return shifts;
+
+	}
 
 	public List<Employee> findEledgibleEmployeesForShift(int e_id, Date date){
 		String sql = "SELECT * FROM employees WHERE employee_id NOT IN (SELECT employee_id FROM schedule where shift_id IN (SELECT shift_id FROM shifts WHERE date = ?)) AND employee_id != ?";
@@ -170,6 +188,17 @@ public class ShiftSwapRepository {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	//gets shiftchangerequests from a result set
+	private ArrayList<ShiftChangeRequest> getRequestedShifts(ResultSet rs) throws SQLException {
+		ArrayList<ShiftChangeRequest> shiftsFound = new ArrayList<>();
+		while (rs.next()) {
+			shiftsFound.add(new ShiftChangeRequest(	rs.getInt(1),
+													new Shift(rs.getInt(1), new Date(rs.getLong(3)), new Date(rs.getLong(4))),
+													rs.getInt(5),
+													new Shift(rs.getInt(1), new Date(rs.getLong(3)), new Date(rs.getLong(4)))));
+		}
+		return shiftsFound;
 	}
 
 	// get shifts from a resultSet

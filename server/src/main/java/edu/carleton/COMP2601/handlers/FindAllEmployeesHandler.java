@@ -29,7 +29,7 @@ public class FindAllEmployeesHandler implements EventHandler {
         try {
             ArrayList<Employee> employees = (ArrayList<Employee>) database.findAllEmployees();
             JSONObject jo = new JSONObject();
-            jo.put(Fields.TYPE, Fields.EMPLOYEE_LIST_RESPONSE);
+            jo.put(Fields.TYPE, Fields.FIND_ALL_EMPLOYEES_REQUEST);
             jo.put(Fields.SOURCE, Fields.DATABASE);
             jo.put(Fields.EMPLOYEES, employees);
             HashMap<String, Serializable> a = new HashMap();
