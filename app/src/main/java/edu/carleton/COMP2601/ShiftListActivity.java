@@ -12,11 +12,19 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeProvider;
 import android.widget.TextView;
 
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import edu.carleton.COMP2601.communication.AcceptorReactor;
+import edu.carleton.COMP2601.communication.Event;
+import edu.carleton.COMP2601.communication.EventHandler;
+import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.dummy.DummyContent;
 
 import java.util.List;
@@ -42,11 +50,22 @@ public class ShiftListActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		AcceptorReactor ar = AcceptorReactor.getInstance();
+		EmployeeShiftResponseHandler employeeShiftResponseHandler = new EmployeeShiftResponseHandler();
 		setContentView(R.layout.activity_shift_list);
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		toolbar.setTitle(getTitle());
+
+		try {
+			JSONObject jo = new JSONObject();
+			jo.put(Fields.TYPE, Fields.EMP_SCHEDULE_REQUEST);
+//			jo.put(Fields.SOURCE, )
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
 
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +181,15 @@ public class ShiftListActivity extends AppCompatActivity {
 			public String toString() {
 				return super.toString() + " '" + mContentView.getText() + "'";
 			}
+		}
+	}
+
+	private class EmployeeShiftResponseHandler implements EventHandler{
+
+
+		@Override
+		public void handleEvent(Event event) {
+
 		}
 	}
 }
