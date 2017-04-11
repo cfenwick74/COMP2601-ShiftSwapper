@@ -184,6 +184,7 @@ public class LoginActivity extends AppCompatActivity {
 					startActivity(intent);
 				} else {
 					intent = new Intent(LoginActivity.this, ShiftListActivity.class);
+					intent.putExtra(Fields.SOURCE, empId);
 					startActivity(intent);
 				}
 			} else {
