@@ -19,7 +19,10 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class AdminActivity extends AppCompatActivity {
+import edu.carleton.COMP2601.dummy.DummyContent;
+import edu.carleton.COMP2601.model.Shift;
+
+public class AdminActivity extends AppCompatActivity implements ManageShiftsFragment.OnListFragmentInteractionListener {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -89,6 +92,11 @@ public class AdminActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	public void onListFragmentInteraction(Shift item) {
+
+	}
+
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
@@ -136,9 +144,14 @@ public class AdminActivity extends AppCompatActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a PlaceholderFragment (defined as a static inner class below).
-			return PlaceholderFragment.newInstance(position + 1);
+			switch (position) {
+				case 0:
+					return ManageShiftsFragment.newInstance(1);
+				default:
+					return PlaceholderFragment.newInstance(position + 1);
+			}
+
+
 		}
 
 		@Override
@@ -151,7 +164,7 @@ public class AdminActivity extends AppCompatActivity {
 		public CharSequence getPageTitle(int position) {
 			switch (position) {
 				case 0:
-					return "SECTION 1";
+					return "Shifts";
 				case 1:
 					return "SECTION 2";
 				case 2:

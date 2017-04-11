@@ -49,5 +49,6 @@ public class Fields {
 	public static final String REQUESTEES_SHIFT = "REQUESTEES_SHIFT";
 
 
-
+	public static final String SHIFT_LIST_RESPONSE = "SHIFT_LIST_RESPONSE";
+	public static final String SHIFT_LIST_REQUEST = "SHIFT_LIST_REQUEST";
 }
