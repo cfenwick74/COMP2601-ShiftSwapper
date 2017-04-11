@@ -15,13 +15,14 @@ import java.util.HashMap;
 public class AcceptorReactor {
     protected Reactor r;
     Socket s;
+
     JSONEventSource e;
+
     ThreadWithReactor twr;
     static AcceptorReactor instance = new AcceptorReactor();
     String addr;
     int port;
     public static AcceptorReactor getInstance(){return instance;}
-
     private AcceptorReactor(){
         r = new Reactor();
     }
@@ -29,6 +30,10 @@ public class AcceptorReactor {
     public void init(int port, String addr){
         this.port = port;
         this.addr = addr;
+    }
+
+    public JSONEventSource getEventSource () {
+        return e;
     }
 
     public void register(String type, EventHandler e) {

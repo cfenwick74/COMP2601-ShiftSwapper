@@ -21,6 +21,7 @@ import edu.carleton.COMP2601.communication.JSONEvent;
 import edu.carleton.COMP2601.communication.JSONEventSource;
 import edu.carleton.COMP2601.communication.Reactor;
 import edu.carleton.COMP2601.communication.ThreadWithReactor;
+import edu.carleton.COMP2601.handlers.MasterScheduleRequestHandler;
 import edu.carleton.COMP2601.repository.ShiftSwapRepository;
 
 public class Server {
@@ -65,11 +66,13 @@ public class Server {
         DispatchEventHandler dispatchEventHandler = new DispatchEventHandler();
         ConnectRequestHandler connectRequestHandler = new ConnectRequestHandler();
         DisconnectRequestHandler disconnectRequestHandler = new DisconnectRequestHandler();
+        MasterScheduleRequestHandler masterScheduleRequestHandler = new MasterScheduleRequestHandler();
         reactor.register(Fields.CONNECT_REQUEST, connectRequestHandler);
         reactor.register(Fields.DISCONNECT_REQUEST, disconnectRequestHandler);
         reactor.register(Fields.SHIFT_SWAP_REQUEST, dispatchEventHandler);
         reactor.register(Fields.SHIFT, dispatchEventHandler);
         reactor.register(Fields.SHIFT_RELEASE_REQUEST, dispatchEventHandler);
+        reactor.register(Fields.MASTER_SCHEDULE_REQUEST, masterScheduleRequestHandler);
 
         try {
             listener = new ServerSocket(PORT);

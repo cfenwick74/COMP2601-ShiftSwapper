@@ -60,20 +60,18 @@ public class ManageShiftsFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AcceptorReactor ar = AcceptorReactor.getInstance();
-		ShiftMasterListResponseHandler shiftMasterListResponseHandler = new ShiftMasterListResponseHandler();
-		ar.register(Fields.SHIFT_LIST_RESPONSE, shiftMasterListResponseHandler);
+		MasterScheduleResponseHandler masterScheduleResponseHandler = new MasterScheduleResponseHandler();
+		ar.register(Fields.SHIFT_LIST_RESPONSE, masterScheduleResponseHandler);
 		if (getArguments() != null) {
-			mColumnCount = getArguments().getInt(SOURCE);
+			mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
 		}
-
-
 
 		try {
 			JSONObject jo = new JSONObject();
-			jo.put(Fields.TYPE, Fields.SHIFT_MASTER_LIST_REQUEST);
+			jo.put(Fields.TYPE, Fields.MASTER_SCHEDULE_REQUEST);
 			jo.put(Fields.SOURCE, getArguments().get(SOURCE));
 			jo.put(Fields.DEST, "");
-			ar.put(new JSONEvent(jo,null, new HashMap<String, Serializable>()));
+			ar.put(new JSONEvent(jo, ar.getEventSource(), new HashMap<String, Serializable>()));
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
@@ -134,10 +132,11 @@ public class ManageShiftsFragment extends Fragment {
 		void onListFragmentInteraction(Shift item);
 	}
 
-	private class ShiftMasterListResponseHandler implements EventHandler {
+	private class MasterScheduleResponseHandler implements EventHandler {
+
 		@Override
 		public void handleEvent(Event event) {
-
+			System.out.println("In schedule response handler");
 		}
 	}
 
