@@ -276,4 +276,16 @@ public class ShiftSwapRepository {
 	}
 
 
+	public void removeFromSchedule(int employee_id, int shift_id) {
+		String sql = "delete from schedule  where employee_id = ? and shift_id = ?";
+		try (Connection connection = ds.getConnection()) {
+			try (PreparedStatement st = connection.prepareStatement(sql)) {
+				st.setInt(1,employee_id);
+				st.setInt(2,shift_id);
+				st.execute();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

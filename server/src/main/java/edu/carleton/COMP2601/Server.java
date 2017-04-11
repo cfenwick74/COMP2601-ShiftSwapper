@@ -21,6 +21,8 @@ import edu.carleton.COMP2601.communication.JSONEvent;
 import edu.carleton.COMP2601.communication.JSONEventSource;
 import edu.carleton.COMP2601.communication.Reactor;
 import edu.carleton.COMP2601.communication.ThreadWithReactor;
+import edu.carleton.COMP2601.handlers.AssignShiftRequestHandler;
+import edu.carleton.COMP2601.handlers.FindAllEmployeesHandler;
 import edu.carleton.COMP2601.handlers.MasterScheduleRequestHandler;
 import edu.carleton.COMP2601.repository.ShiftSwapRepository;
 
@@ -67,12 +69,19 @@ public class Server {
         ConnectRequestHandler connectRequestHandler = new ConnectRequestHandler();
         DisconnectRequestHandler disconnectRequestHandler = new DisconnectRequestHandler();
         MasterScheduleRequestHandler masterScheduleRequestHandler = new MasterScheduleRequestHandler();
+        AssignShiftRequestHandler assignShiftRequestHandler = new AssignShiftRequestHandler();
+        FindAllEmployeesHandler findAllEmployeesHandler = new FindAllEmployeesHandler();
         reactor.register(Fields.CONNECT_REQUEST, connectRequestHandler);
         reactor.register(Fields.DISCONNECT_REQUEST, disconnectRequestHandler);
         reactor.register(Fields.SHIFT_SWAP_REQUEST, dispatchEventHandler);
         reactor.register(Fields.SHIFT, dispatchEventHandler);
         reactor.register(Fields.SHIFT_RELEASE_REQUEST, dispatchEventHandler);
         reactor.register(Fields.MASTER_SCHEDULE_REQUEST, masterScheduleRequestHandler);
+
+        reactor.register(Fields.ASSIGN_SHIFT_REQUEST, assignShiftRequestHandler);
+        reactor.register(Fields.UNASSIGN_SHIFT_REQUEST, assignShiftRequestHandler);
+
+        reactor.register(Fields.FIND_ALL_EMPLOYEES_REQUEST, masterScheduleRequestHandler);
 
         try {
             listener = new ServerSocket(PORT);
