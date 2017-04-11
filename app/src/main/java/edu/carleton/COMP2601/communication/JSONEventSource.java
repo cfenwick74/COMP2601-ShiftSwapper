@@ -7,6 +7,7 @@ package edu.carleton.COMP2601.communication;
  * Class representing a JSON Event Source; based on EventStreamImpl provided by Professor White
  */
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,8 +20,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class JSONEventSource implements EventStream {
 
@@ -72,19 +76,49 @@ public class JSONEventSource implements EventStream {
 			System.out.println(buf.toString());
 			try {
 				jo = new JSONObject(a);
-				JSONObject joFields = ((JSONObject) jo.get(Fields.EVENT_CONTENT));
-				HashMap<String, Serializable> fields = new HashMap<>();
-				Iterator<String> itr = joFields.keys();
-				while(itr.hasNext()){
-					String key = itr.next();
-					fields.put(key, (Serializable) joFields.get(key));
-				}
+				HashMap<String, Serializable> fields = (HashMap<String, Serializable>) toMap((JSONObject) jo.get(Fields.EVENT_CONTENT));
 				evt = new JSONEvent(jo, this, fields);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
 		return evt;
+	}
+
+	public static Map<String, Serializable> toMap(JSONObject object) throws JSONException {
+		Map<String, Serializable> map = new HashMap<String, Serializable>();
+
+		Iterator<String> keysItr = object.keys();
+		while(keysItr.hasNext()) {
+			String key = keysItr.next();
+			Object value = object.get(key);
+
+			if(value instanceof JSONArray) {
+				value = toList((JSONArray) value);
+			}
+
+			else if(value instanceof JSONObject) {
+				value = toMap((JSONObject) value);
+			}
+			map.put(key, (Serializable) value);
+		}
+		return map;
+	}
+
+	public static List<Serializable> toList(JSONArray array) throws JSONException {
+		List<Serializable> list = new ArrayList<Serializable>();
+		for(int i = 0; i < array.length(); i++) {
+			Object value = array.get(i);
+			if(value instanceof JSONArray) {
+				value = toList((JSONArray) value);
+			}
+
+			else if(value instanceof JSONObject) {
+				value = toMap((JSONObject) value);
+			}
+			list.add((Serializable) value);
+		}
+		return list;
 	}
 
 	@SuppressWarnings("unchecked")
