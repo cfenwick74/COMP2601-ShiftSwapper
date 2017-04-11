@@ -10,11 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.HashMap;
+
 import edu.carleton.COMP2601.communication.AcceptorReactor;
 import edu.carleton.COMP2601.communication.Event;
 import edu.carleton.COMP2601.communication.EventHandler;
 import edu.carleton.COMP2601.communication.Fields;
-import edu.carleton.COMP2601.dummy.DummyContent.DummyItem;
+import edu.carleton.COMP2601.communication.JSONEvent;
 import edu.carleton.COMP2601.dummy.DummyShiftContent;
 import edu.carleton.COMP2601.model.Shift;
 
@@ -27,6 +33,7 @@ import edu.carleton.COMP2601.model.Shift;
 public class ManageShiftsFragment extends Fragment {
 
 	// TODO: Customize parameter argument names
+	private static final String SOURCE  = "SOURCE";
 	private static final String ARG_COLUMN_COUNT = "column-count";
 	// TODO: Customize parameters
 	private int mColumnCount = 1;
@@ -41,10 +48,10 @@ public class ManageShiftsFragment extends Fragment {
 
 	// TODO: Customize parameter initialization
 	@SuppressWarnings("unused")
-	public static ManageShiftsFragment newInstance(int columnCount) {
+	public static ManageShiftsFragment newInstance(int columnCount, String employee) {
 		ManageShiftsFragment fragment = new ManageShiftsFragment();
 		Bundle args = new Bundle();
-		args.putInt(ARG_COLUMN_COUNT, columnCount);
+		args.putString(SOURCE, employee);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -53,11 +60,24 @@ public class ManageShiftsFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AcceptorReactor ar = AcceptorReactor.getInstance();
-		ShiftListResponseHandler shiftListResponseHandler = new ShiftListResponseHandler();
-		ar.register(Fields.SHIFT_LIST_RESPONSE, shiftListResponseHandler);
+		ShiftMasterListResponseHandler shiftMasterListResponseHandler = new ShiftMasterListResponseHandler();
+		ar.register(Fields.SHIFT_LIST_RESPONSE, shiftMasterListResponseHandler);
 		if (getArguments() != null) {
-			mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+			mColumnCount = getArguments().getInt(SOURCE);
 		}
+
+
+
+		try {
+			JSONObject jo = new JSONObject();
+			jo.put(Fields.TYPE, Fields.SHIFT_MASTER_LIST_REQUEST);
+			jo.put(Fields.SOURCE, getArguments().get(SOURCE));
+			jo.put(Fields.DEST, "");
+			ar.put(new JSONEvent(jo,null, new HashMap<String, Serializable>()));
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -114,7 +134,7 @@ public class ManageShiftsFragment extends Fragment {
 		void onListFragmentInteraction(Shift item);
 	}
 
-	private class ShiftListResponseHandler implements EventHandler {
+	private class ShiftMasterListResponseHandler implements EventHandler {
 		@Override
 		public void handleEvent(Event event) {
 

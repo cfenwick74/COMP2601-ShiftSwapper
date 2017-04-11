@@ -1,4 +1,4 @@
-package edu.carleton.COMP2601.repository;
+package edu.carleton.COMP2601.model;
 
 /**
  * Created by carolyn on 2017-04-09.
@@ -20,10 +20,6 @@ private int id;
 		this.address = address;
 		this.isAdmin = isAdmin;
 		this.password = password;
-	}
-
-	public Employee() {
-		
 	}
 
 	public boolean isAdmin() {
@@ -73,10 +69,6 @@ private int id;
 		result = 31 * result + (isAdmin ? 1 : 0);
 		result = 31 * result + (password != null ? password.hashCode() : 0);
 		return result;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 }
 

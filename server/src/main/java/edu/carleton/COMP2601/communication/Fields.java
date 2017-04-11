@@ -51,4 +51,6 @@ public class Fields {
 
 	public static final String SHIFT_LIST_RESPONSE = "SHIFT_LIST_RESPONSE";
 	public static final String SHIFT_LIST_REQUEST = "SHIFT_LIST_REQUEST";
+	public static final String SHIFT_MASTER_LIST_REQUEST = "MASTER_SCHEDULE_REQUEST";
+	public static final String SHIFT_MASTSER_LIST_REQUEST = "MASTER_SCHEDULE_REQUEST";
 }

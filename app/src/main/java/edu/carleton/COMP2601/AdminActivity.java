@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import edu.carleton.COMP2601.dummy.DummyContent;
+import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.model.Shift;
 
 public class AdminActivity extends AppCompatActivity implements ManageShiftsFragment.OnListFragmentInteractionListener {
@@ -38,11 +38,14 @@ public class AdminActivity extends AppCompatActivity implements ManageShiftsFrag
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	private ViewPager mViewPager;
+	public String currentEmployee;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_admin);
+
+		currentEmployee = getIntent().getStringExtra(Fields.SOURCE);
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -66,7 +69,6 @@ public class AdminActivity extends AppCompatActivity implements ManageShiftsFrag
 						.setAction("Action", null).show();
 			}
 		});
-
 	}
 
 
@@ -146,12 +148,10 @@ public class AdminActivity extends AppCompatActivity implements ManageShiftsFrag
 		public Fragment getItem(int position) {
 			switch (position) {
 				case 0:
-					return ManageShiftsFragment.newInstance(1);
+					return ManageShiftsFragment.newInstance(1, currentEmployee);
 				default:
 					return PlaceholderFragment.newInstance(position + 1);
 			}
-
-
 		}
 
 		@Override

@@ -71,4 +71,11 @@ public class ShiftSwapRepositoryTest {
 		shiftSwapRepo.addToSchedule(1, 4);
 	}
 
+	@Test
+	public void testGetMasterSchedule() throws Exception {
+		List<ScheduledShift> returnVal = shiftSwapRepo.getMasterSchedule();
+		assertTrue("should have something in the master schedule", returnVal.size() > 0);
+
+	}
+
 }

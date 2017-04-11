@@ -52,4 +52,8 @@ public class Shift {
 	public Date getEnd() {
 		return end;
 	}
+
+	public int getId() {
+		return id;
+	}
 }

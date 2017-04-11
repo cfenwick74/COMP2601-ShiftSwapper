@@ -14,6 +14,7 @@ public class Shift {
 		this(start, end);
 		this.id = id;
 	}
+
 	public Shift(Date start, Date end) {
 		this.start = start;
 		this.end = end;
@@ -56,4 +57,9 @@ public class Shift {
 	public int getID() {
 		return id;
 	}
+//
+//	public String toString() {
+//
+//		return res;
+//	}
 }

@@ -2,8 +2,6 @@ package edu.carleton.COMP2601.repository;
 
 import org.sqlite.SQLiteDataSource;
 
-import java.io.File;
-import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -183,13 +181,44 @@ public class ShiftSwapRepository {
 		return shiftsFound;
 	}
 
-	// get shifts from a resultSet
+	// get employees from a resultSet
 	private ArrayList<Employee> getEmployees(ResultSet rs) throws SQLException {
 		ArrayList<Employee> employees = new ArrayList<>();
 		while (rs.next()) {
 			employees.add(new Employee(rs.getInt("employee_id"), rs.getString("name"),rs.getString("address"), rs.getBoolean("isAdmin"), rs.getString("Password")));
 		}
 		return employees;
+	}
+
+	// get admin list of all shifts
+	public ArrayList<ScheduledShift> getMasterSchedule() {
+		ArrayList<ScheduledShift> shifts = new ArrayList<>();
+		String sql = "select s.shift_id, s.timeIn, s.timeOut, e.employee_id, e.name from shifts s left outer join SCHEDULE sc " +
+				"on s.shift_id = sc.shift_id left outer join EMPLOYEES e on e.employee_id = sc.employee_id";
+		try (Connection connection = ds.getConnection()) {
+			try (Statement st = connection.createStatement()) {
+				ResultSet rs = st.executeQuery(sql);
+				while (rs.next()) {
+					ScheduledShift current = new ScheduledShift();
+					shifts.add(current);
+					current.setShift(new Shift(rs.getInt(ID), new Date(rs.getLong(TIME_IN)), new Date(rs.getLong(TIME_OUT))));
+					while (!rs.isAfterLast() && rs.getInt("shift_id") == current.getShift().getId()) {
+						if (rs.getInt("employee_id") != 0) {
+							Employee employee = new Employee();
+							employee.setId(rs.getInt("employee_id"));
+							employee.setName(rs.getString("name"));
+							current.getScheduledEmployees().add(employee);
+						}
+						rs.next();
+					}
+
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return shifts;
 	}
 
 	//add a shift to an employee's schedule
@@ -239,4 +268,6 @@ public class ShiftSwapRepository {
 			e.printStackTrace();
 		}
 	}
+
+
 }

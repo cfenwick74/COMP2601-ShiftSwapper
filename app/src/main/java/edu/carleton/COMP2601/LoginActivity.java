@@ -179,6 +179,7 @@ public class LoginActivity extends AppCompatActivity {
 			if (status) {
 				if (isAdmin) {
 					intent = new Intent(LoginActivity.this, AdminActivity.class);
+					intent.putExtra(Fields.SOURCE, empId);
 					startActivity(intent);
 				} else {
 					intent = new Intent(LoginActivity.this, ShiftListActivity.class);
