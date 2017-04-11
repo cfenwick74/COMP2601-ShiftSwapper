@@ -1,8 +1,10 @@
 package edu.carleton.COMP2601;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.ActionBarContainer;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import edu.carleton.COMP2601.communication.AcceptorReactor;
 import edu.carleton.COMP2601.communication.Event;
@@ -42,6 +45,8 @@ public class ManageShiftsFragment extends Fragment {
 	// TODO: Customize parameters
 	private int mColumnCount = 1;
 	private OnListFragmentInteractionListener mListener;
+	private MyShiftRecyclerViewAdapter adapter;
+	private View view;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -64,6 +69,7 @@ public class ManageShiftsFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AcceptorReactor ar = AcceptorReactor.getInstance();
+		adapter = new MyShiftRecyclerViewAdapter(new ArrayList<ScheduledShift>(), mListener);
 		MasterScheduleResponseHandler masterScheduleResponseHandler = new MasterScheduleResponseHandler();
 		ar.register(Fields.MASTER_SCHEDULE_RESPONSE, masterScheduleResponseHandler);
 		if (getArguments() != null) {
@@ -86,7 +92,7 @@ public class ManageShiftsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_manage_shift_list, container, false);
+		view = inflater.inflate(R.layout.fragment_manage_shift_list, container, false);
 		// Set the adapter
 		if (view instanceof RecyclerView) {
 			Context context = view.getContext();
@@ -99,7 +105,7 @@ public class ManageShiftsFragment extends Fragment {
 				recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
 			}
 
-			recyclerView.setAdapter(new MyShiftRecyclerViewAdapter(DummyShiftContent.ITEMS, mListener));
+			recyclerView.setAdapter(adapter);
 		}
 		return view;
 	}
@@ -134,7 +140,7 @@ public class ManageShiftsFragment extends Fragment {
 	 */
 	public interface OnListFragmentInteractionListener {
 		// TODO: Update argument type and name
-		void onListFragmentInteraction(Shift item);
+		void onListFragmentInteraction(ScheduledShift item);
 	}
 
 	private class MasterScheduleResponseHandler implements EventHandler {
@@ -143,12 +149,17 @@ public class ManageShiftsFragment extends Fragment {
 		public void handleEvent(Event event) {
 			System.out.println("In schedule response handler");
 			ArrayList<Serializable> list = (ArrayList<Serializable>) event.get(Fields.MASTER_SCHEDULE);
+				adapter.mValues.clear();
 			for (Serializable item: list) {
-				String f = "Fuck";
-
+				adapter.mValues.add(new ScheduledShift((HashMap<String, Serializable>)item));
 			}
-			ScheduledShift shift = new ScheduledShift();
-			Employee employee = new Employee();
+			((Activity)view.getContext()).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					adapter.notifyDataSetChanged();
+				}
+			});
+
 		}
 	}
 

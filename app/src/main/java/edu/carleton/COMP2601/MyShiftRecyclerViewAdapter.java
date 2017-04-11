@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import edu.carleton.COMP2601.model.ScheduledShift;
 import edu.carleton.COMP2601.model.Shift;
 
 import java.util.List;
@@ -17,10 +18,10 @@ import java.util.List;
  */
 public class MyShiftRecyclerViewAdapter extends RecyclerView.Adapter<MyShiftRecyclerViewAdapter.ViewHolder> {
 
-	private final List<Shift> mValues;
+	public final List<ScheduledShift> mValues;
 	private final ManageShiftsFragment.OnListFragmentInteractionListener mListener;
 
-	public MyShiftRecyclerViewAdapter(List<Shift> items, ManageShiftsFragment.OnListFragmentInteractionListener listener) {
+	public MyShiftRecyclerViewAdapter(List<ScheduledShift> items, ManageShiftsFragment.OnListFragmentInteractionListener listener) {
 		mValues = items;
 		mListener = listener;
 	}
@@ -34,10 +35,10 @@ public class MyShiftRecyclerViewAdapter extends RecyclerView.Adapter<MyShiftRecy
 
 	@Override
 	public void onBindViewHolder(final ViewHolder holder, int position) {
-		Shift shift = mValues.get(position);
-		holder.mItem = shift;
-		holder.mIdView.setText(""+shift.getId());
-		holder.mContentView.setText(shift.getStart() + " \n " +shift.getStart());
+		ScheduledShift scheduledShift = mValues.get(position);
+		holder.mItem = scheduledShift;
+		holder.mIdView.setText(""+scheduledShift.getShift().getId());
+		holder.mContentView.setText(scheduledShift.getShift().getStart() + " \n " +scheduledShift.getShift().getStart() +" Employees Assigned: " + scheduledShift.getScheduledEmployees().size());
 
 		holder.mView.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -60,7 +61,7 @@ public class MyShiftRecyclerViewAdapter extends RecyclerView.Adapter<MyShiftRecy
 		public final View mView;
 		public final TextView mIdView;
 		public final TextView mContentView;
-		public Shift mItem;
+		public ScheduledShift mItem;
 
 		public ViewHolder(View view) {
 			super(view);

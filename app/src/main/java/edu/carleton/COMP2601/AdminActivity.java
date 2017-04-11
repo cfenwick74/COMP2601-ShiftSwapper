@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import edu.carleton.COMP2601.communication.Fields;
+import edu.carleton.COMP2601.model.ScheduledShift;
 import edu.carleton.COMP2601.model.Shift;
 
 public class AdminActivity extends AppCompatActivity implements ManageShiftsFragment.OnListFragmentInteractionListener {
@@ -95,7 +96,7 @@ public class AdminActivity extends AppCompatActivity implements ManageShiftsFrag
 	}
 
 	@Override
-	public void onListFragmentInteraction(Shift item) {
+	public void onListFragmentInteraction(ScheduledShift item) {
 
 	}
 

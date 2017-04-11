@@ -10,16 +10,17 @@ import java.util.HashMap;
  * Created by carolyn on 2017-04-09.
  */
 public class Shift implements Serializable {
+	SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 	public int id;
 	private Date start;
 	private Date end;
 
 	public Shift(HashMap<String, Serializable> shiftMap) {
 		HashMap<String, Serializable> map = shiftMap;
-		this.id = Integer.parseInt((String)map.get("id"));
+		this.id = (Integer)map.get("id");
 		try {
-			this.start = new SimpleDateFormat().parse((String)map.get("start"));
-			this.end = new SimpleDateFormat().parse((String)map.get("end"));
+			this.start =df.parse((String)map.get("start"));
+			this.end =df.parse((String)map.get("end"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
