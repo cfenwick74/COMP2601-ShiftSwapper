@@ -30,7 +30,7 @@ public class ShiftSwapRepositoryTest {
 	public void setUp() throws Exception {
 
 		File database = new File(folder.newFolder(), "test.db");
-		FileUtils.copyFile(new File("project.db"), database);
+		FileUtils.copyFile(new File("./src/test/resources/project.db"), database);
 		URI relativeURI = new File("/").toURI().relativize(database.toURI());
 		shiftSwapRepo = new ShiftSwapRepository("jdbc:sqlite:" + database.getPath());
 	}
@@ -74,6 +74,13 @@ public class ShiftSwapRepositoryTest {
 	@Test
 	public void testGetMasterSchedule() throws Exception {
 		List<ScheduledShift> returnVal = shiftSwapRepo.getMasterSchedule();
+		assertTrue("should have something in the master schedule", returnVal.size() > 0);
+
+	}
+
+	@Test
+	public void testGetStuff() throws Exception {
+		List<ShiftChangeRequest> returnVal = shiftSwapRepo.findRequestedShiftChangesForEmployee(2);
 		assertTrue("should have something in the master schedule", returnVal.size() > 0);
 
 	}

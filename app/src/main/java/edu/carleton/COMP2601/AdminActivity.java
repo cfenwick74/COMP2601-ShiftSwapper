@@ -62,8 +62,6 @@ public class AdminActivity extends AppCompatActivity implements ManageShiftsFrag
 
 		TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 		tabLayout.setupWithViewPager(mViewPager);
-
-//
 	}
 
 
@@ -128,6 +126,9 @@ public class AdminActivity extends AppCompatActivity implements ManageShiftsFrag
 			View rootView = inflater.inflate(R.layout.fragment_admin, container, false);
 			TextView textView = (TextView) rootView.findViewById(R.id.section_label);
 			textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+			if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
+				textView.setText("This is where we would create new employees");
+			}
 			return rootView;
 		}
 	}
@@ -154,8 +155,8 @@ public class AdminActivity extends AppCompatActivity implements ManageShiftsFrag
 
 		@Override
 		public int getCount() {
-			// Show 3 total pages.
-			return 3;
+			// Show 1 total pages.
+			return 2;
 		}
 
 		@Override
@@ -164,7 +165,7 @@ public class AdminActivity extends AppCompatActivity implements ManageShiftsFrag
 				case 0:
 					return "Shifts";
 				case 1:
-					return "SECTION 2";
+					return "Employees";
 				case 2:
 					return "SECTION 3";
 			}
