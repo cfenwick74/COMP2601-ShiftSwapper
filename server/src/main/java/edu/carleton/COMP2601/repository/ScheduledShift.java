@@ -6,7 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by carolyn on 2017-04-11.
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ *
+ * ScheduledShift.java - represents a shift that has one or more Employees assigned to it
  */
 public class ScheduledShift implements Serializable{
 	Shift shift;

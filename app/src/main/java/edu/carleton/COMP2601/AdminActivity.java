@@ -24,6 +24,13 @@ import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.model.ScheduledShift;
 import edu.carleton.COMP2601.model.Shift;
 
+/**
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ */
+
 public class AdminActivity extends AppCompatActivity implements ManageShiftsFragment.OnListFragmentInteractionListener {
 
 	/**

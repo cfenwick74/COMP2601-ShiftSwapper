@@ -6,7 +6,12 @@ import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.repository.ShiftSwapRepository;
 
 /**
- * Created by carolyn on 2017-04-11.
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ *
+ * Handles a request for a shift assignment
  */
 
 public class AssignShiftRequestHandler implements EventHandler {
