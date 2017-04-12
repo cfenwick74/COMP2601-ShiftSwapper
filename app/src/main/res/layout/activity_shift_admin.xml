@@ -19,7 +19,8 @@
         android:inputType="text"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:imeOptions="actionDone"/>
 
     <AutoCompleteTextView
         android:id="@+id/emp2"
@@ -30,7 +31,7 @@
         android:layout_below="@+id/emp1"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        />
+        android:imeOptions="actionDone"/>
 
     <AutoCompleteTextView
         android:id="@+id/emp3"
@@ -41,7 +42,7 @@
         android:layout_marginTop="65dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        />
+        android:imeOptions="actionDone"/>
 
     <AutoCompleteTextView
         android:id="@+id/emp4"
@@ -52,7 +53,7 @@
         android:layout_below="@+id/emp3"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        />
+        android:imeOptions="actionDone"/>
 
     <Button
         android:id="@+id/save_button"

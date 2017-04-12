@@ -188,14 +188,12 @@ public class ShiftListActivity extends AppCompatActivity {
 
 		public class ViewHolder extends RecyclerView.ViewHolder {
 			public final View mView;
-			public final TextView mIdView;
 			public final TextView mContentView;
 			public ShiftDetailItem mItem;
 
 			public ViewHolder(View view) {
 				super(view);
 				mView = view;
-				mIdView = (TextView) view.findViewById(R.id.id);
 				mContentView = (TextView) view.findViewById(R.id.content);
 			}
 
