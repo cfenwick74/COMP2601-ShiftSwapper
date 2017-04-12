@@ -7,16 +7,18 @@ import java.io.Serializable;
  */
 
 public class ShiftChangeRequest implements Serializable {
+    private final int changeId;
     private int requestor_shift_id;
     private int requestee_shift_id;
     private Shift requestor_shift;
     private Shift requestee_shift;
 
-    ShiftChangeRequest(int reqr_id, Shift reqr_shift, int reqee_id, Shift reqee_shift){
+    ShiftChangeRequest(int reqr_id, Shift reqr_shift, int reqee_id, Shift reqee_shift, int id){
         requestor_shift_id = reqr_id;
         requestee_shift_id = reqee_id;
         requestee_shift = reqee_shift;
         requestor_shift = reqr_shift;
+        changeId = id;
     }
 
     public int getRequestor_shift_id() {
@@ -49,5 +51,9 @@ public class ShiftChangeRequest implements Serializable {
 
     public void setRequestee_shift(Shift requestee_shift) {
         this.requestee_shift = requestee_shift;
+    }
+
+    public int getChangeId() {
+        return changeId;
     }
 }

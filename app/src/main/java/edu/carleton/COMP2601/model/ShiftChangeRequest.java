@@ -12,6 +12,7 @@ public class ShiftChangeRequest implements Serializable, ShiftDetailItem {
     int requestee_shift_id;
     Shift requestor_shift;
     Shift requestee_shift;
+    int changeId;
 
     public ShiftChangeRequest(int reqr_id, Shift reqr_shift, int reqee_id, Shift reqee_shift){
         requestor_shift_id = reqr_id;
@@ -29,7 +30,7 @@ public class ShiftChangeRequest implements Serializable, ShiftDetailItem {
 
     @Override
     public int getId() {
-        return requestee_shift_id;
+        return changeId;
     }
 
     @Override
@@ -67,5 +68,13 @@ public class ShiftChangeRequest implements Serializable, ShiftDetailItem {
 
     public void setRequestee_shift(Shift requestee_shift) {
         this.requestee_shift = requestee_shift;
+    }
+
+    public int getChangeId() {
+        return changeId;
+    }
+
+    public void setChangeId(int changeId) {
+        this.changeId = changeId;
     }
 }
