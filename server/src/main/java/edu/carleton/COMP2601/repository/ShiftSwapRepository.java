@@ -70,7 +70,7 @@ public class ShiftSwapRepository {
 	 *	 	if user is an employee - returns 0
 	 *	 	if user doesn't exist - return -1
  	 */
-	public int login(Integer id, String pass){
+	public int login(int id, String pass){
 
 		String sql = "SELECT isAdmin FROM employees WHERE employee_id = ? AND password = ?";
 		try (Connection connection = ds.getConnection()) {

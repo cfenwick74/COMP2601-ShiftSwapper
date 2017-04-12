@@ -81,20 +81,15 @@ public class LoginActivity extends AppCompatActivity {
 		pwd = password.getText().toString();
 		final boolean blankEmp = empId.equals("");
 		final boolean blankPass = pwd.equals("");
-		if (blankEmp || blankPass) {
+		final boolean invalidEntry = !empId.matches("[0-9]");
+		if (blankEmp || blankPass || invalidEntry) {
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					StringBuilder title = new StringBuilder("Please enter your ");
+					StringBuilder title = new StringBuilder("Please enter a valid ");
 
 					AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this).create();
-					if (blankEmp && blankPass) {
-						title.append("employee id and password");
-					} else if (!blankPass) {
-							title.append("employee id");
-					} else {
-						title.append("password");
-					}
+					title.append("employee id or password");
 					dialog.setTitle(title);
 					dialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
 							new DialogInterface.OnClickListener() {

@@ -134,6 +134,7 @@ public class Server {
                     a.put(Fields.IS_ADMIN, Fields.FALSE);
                 } else {
                     a.put(Fields.STATUS, Fields.FALSE);
+                    a.put(Fields.IS_ADMIN, Fields.FALSE);
                 }
 
 
