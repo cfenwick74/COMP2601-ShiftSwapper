@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Created by carolyn on 2017-04-09.
  */
-public class Shift implements Serializable {
+public class Shift implements Serializable, ShiftDetailItem {
 	SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 	public int id;
 	private Date start;
@@ -71,5 +71,10 @@ public class Shift implements Serializable {
 
 	public int getId() {
 		return id;
+	}
+
+	@Override
+	public String getDescription() {
+		return "Shift from " +start + " to " + end;
 	}
 }

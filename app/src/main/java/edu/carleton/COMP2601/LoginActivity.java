@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 	private String empId = "1";
 	private String pwd = "1234";
 	private String ipaddr = "192.168.1.110";
-	private int port = 1025;
+	private int port = 1024;
 	ProgressBar spinner;
 	static LoginActivity instance;
 	JSONEventSource e;

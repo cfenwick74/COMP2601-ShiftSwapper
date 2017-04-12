@@ -158,9 +158,12 @@ public class ShiftSwapRepository {
 	}
 	public List<ShiftChangeRequest> findRequestedShiftChangesForEmployee(int employeeId){
 		ArrayList<ShiftChangeRequest> shifts = new ArrayList<>();
-		String sql = "SELECT a.*, b.* FROM shifts a, shifts b, schedule aa, schedule bb, shiftchange "+
-						"WHERE aa.schedule_id = shiftchange.requestor_schedule_id AND bb.schedule_id = shiftchange.requestee_schedule_id"+
-						"AND a.shift_id = aa.shift_id AND b.shift_id = bb.shift_id and shiftchange.requestee_employee_id = ?";
+		String sql = "SELECT a.shift_id, a.timeIn, a.timeOut, b.shift_id, b.timeIn, b.timeOut FROM shifts a, shifts b, schedule requestor_schedule, schedule requestee_schedule, shiftchange " +
+				"WHERE requestor_schedule.schedule_id = shiftchange.requestor_schedule_id " +
+				"AND requestee_schedule.schedule_id = shiftchange.requestee_schedule_id " +
+				"AND a.shift_id = requestor_schedule.shift_id " +
+				"AND b.shift_id = requestee_schedule.shift_id " +
+				"and requestee_schedule.employee_id = ?";
 
 		try (Connection connection = ds.getConnection()) {
 			try (PreparedStatement st = connection.prepareStatement(sql)) {
@@ -195,9 +198,9 @@ public class ShiftSwapRepository {
 		ArrayList<ShiftChangeRequest> shiftsFound = new ArrayList<>();
 		while (rs.next()) {
 			shiftsFound.add(new ShiftChangeRequest(	rs.getInt(1),
-													new Shift(rs.getInt(1), new Date(rs.getLong(3)), new Date(rs.getLong(4))),
-													rs.getInt(5),
-													new Shift(rs.getInt(1), new Date(rs.getLong(3)), new Date(rs.getLong(4)))));
+													new Shift(rs.getInt(1), new Date(rs.getLong(2)), new Date(rs.getLong(3))),
+													rs.getInt(4),
+													new Shift(rs.getInt(4), new Date(rs.getLong(5)), new Date(rs.getLong(6)))));
 		}
 		return shiftsFound;
 	}
