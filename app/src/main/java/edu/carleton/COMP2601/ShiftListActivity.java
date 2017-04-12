@@ -32,6 +32,8 @@ import edu.carleton.COMP2601.communication.JSONEvent;
 import edu.carleton.COMP2601.dummy.DummyContent;
 import edu.carleton.COMP2601.model.ScheduledShift;
 import edu.carleton.COMP2601.model.Shift;
+import edu.carleton.COMP2601.model.ShiftChangeRequest;
+import edu.carleton.COMP2601.model.ShiftDetailItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class ShiftListActivity extends AppCompatActivity {
 	 */
 	private boolean mTwoPane;
 	Activity a;
-	ArrayList<DummyContent.DummyItem> items = new ArrayList<>();
+	ArrayList<ShiftDetailItem> items = new ArrayList<>();
 	private ManageShiftsFragment.OnListFragmentInteractionListener mListener;
 	private String currentEmployee;
 	SimpleItemRecyclerViewAdapter adapter;
@@ -139,9 +141,9 @@ public class ShiftListActivity extends AppCompatActivity {
 	public class SimpleItemRecyclerViewAdapter
 			extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-		private final List<DummyContent.DummyItem> mValues;
+		private final List<ShiftDetailItem> mValues;
 
-		public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+		public SimpleItemRecyclerViewAdapter(List<ShiftDetailItem> items) {
 			mValues = items;
 		}
 
@@ -155,15 +157,15 @@ public class ShiftListActivity extends AppCompatActivity {
 		@Override
 		public void onBindViewHolder(final ViewHolder holder, int position) {
 			holder.mItem = mValues.get(position);
-			holder.mIdView.setText(mValues.get(position).id);
-			holder.mContentView.setText(mValues.get(position).content);
+			holder.mIdView.setText(""+mValues.get(position).getId());
+			holder.mContentView.setText(mValues.get(position).getDescription());
 
 			holder.mView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (mTwoPane) {
 						Bundle arguments = new Bundle();
-						arguments.putString(ShiftDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+						arguments.putInt(ShiftDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
 						ShiftDetailFragment fragment = new ShiftDetailFragment();
 						fragment.setArguments(arguments);
 						getSupportFragmentManager().beginTransaction()
@@ -172,7 +174,7 @@ public class ShiftListActivity extends AppCompatActivity {
 					} else {
 						Context context = v.getContext();
 						Intent intent = new Intent(context, ShiftDetailActivity.class);
-						intent.putExtra(ShiftDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+						intent.putExtra(ShiftDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
 
 						context.startActivity(intent);
 					}
@@ -189,7 +191,7 @@ public class ShiftListActivity extends AppCompatActivity {
 			public final View mView;
 			public final TextView mIdView;
 			public final TextView mContentView;
-			public DummyContent.DummyItem mItem;
+			public ShiftDetailItem mItem;
 
 			public ViewHolder(View view) {
 				super(view);
@@ -211,14 +213,11 @@ public class ShiftListActivity extends AppCompatActivity {
 		@Override
 		public void handleEvent(Event event) {
 			items.clear();
-			int index = 0;
-			for(HashMap<String, Serializable> s : (ArrayList<HashMap<String,Serializable>>)event.get(Fields.SHIFT)){
-				items.add(new DummyContent.DummyItem(Integer.toString(index), "Your Shift: " + s.get("start").toString() + " to " + s.get("end").toString(), ""));
-				index++;
+			for(HashMap<String, Serializable> shift : (ArrayList<HashMap<String,Serializable>>)event.get(Fields.SHIFT)){
+				items.add((new Shift(shift)));
 			}
-			for(HashMap<String, Serializable> s : (ArrayList<HashMap<String,Serializable>>)event.get(Fields.REQUESTORS_SHIFT)){
-				items.add(new DummyContent.DummyItem(Integer.toString(index), "Requested Shift Change: " + s.get("start").toString() + " to " + s.get("end").toString(), ""));
-				index++;
+			for(HashMap<String, Serializable> shift : (ArrayList<HashMap<String,Serializable>>)event.get(Fields.REQUESTORS_SHIFT)){
+				items.add(new ShiftChangeRequest(shift));
 			}
 			a.runOnUiThread(new Runnable() {
 				@Override
