@@ -84,15 +84,8 @@ public class ShiftDetailActivity extends AppCompatActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			Intent i = new Intent();
-			i.putExtra(ShiftDetailFragment.ARG_ARRAYLIST,items);
-			navigateUpTo(new Intent(this, ShiftListActivity.class));
+
+			onBackPressed();
 
 			return true;
 		}

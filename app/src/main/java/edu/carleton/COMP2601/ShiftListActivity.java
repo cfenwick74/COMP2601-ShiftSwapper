@@ -71,23 +71,15 @@ public class ShiftListActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		a = this;
-		AcceptorReactor ar = AcceptorReactor.getInstance();
+
 		currentEmployee = getIntent().getStringExtra(Fields.SOURCE);
-		JSONObject jo = new JSONObject();
+
 
 		if(getIntent().hasExtra(ShiftDetailFragment.ARG_ARRAYLIST)) {
 			items = (ArrayList<ShiftDetailItem>) getIntent().getSerializableExtra(ShiftDetailFragment.ARG_ARRAYLIST);
 			adapter.notifyDataSetChanged();
 		}
-		try {
-			ar.register(Fields.EMP_SCHEDULE_RESPONSE, new EmployeeShiftResponseHandler());
-			jo.put(Fields.TYPE, Fields.EMP_SCHEDULE_REQUEST);
-			jo.put(Fields.SOURCE, currentEmployee);
-			jo.put(Fields.DEST, "Server");
-			ar.put(new JSONEvent(jo,null,new HashMap<String, Serializable>()));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		refreshList();
 		EmployeeShiftResponseHandler employeeShiftResponseHandler = new EmployeeShiftResponseHandler();
 		setContentView(R.layout.activity_shift_list);
 
@@ -111,6 +103,26 @@ public class ShiftListActivity extends AppCompatActivity {
 			// If this view is present, then the
 			// activity should be in two-pane mode.
 			mTwoPane = true;
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		refreshList();
+	}
+
+	private void refreshList() {
+		JSONObject jo = new JSONObject();
+		AcceptorReactor ar = AcceptorReactor.getInstance();
+		try {
+			ar.register(Fields.EMP_SCHEDULE_RESPONSE, new EmployeeShiftResponseHandler());
+			jo.put(Fields.TYPE, Fields.EMP_SCHEDULE_REQUEST);
+			jo.put(Fields.SOURCE, currentEmployee);
+			jo.put(Fields.DEST, "Server");
+			ar.put(new JSONEvent(jo,null,new HashMap<String, Serializable>()));
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -207,6 +219,8 @@ public class ShiftListActivity extends AppCompatActivity {
 			}
 		}
 	}
+
+
 
 	private class EmployeeShiftResponseHandler implements EventHandler{
 
