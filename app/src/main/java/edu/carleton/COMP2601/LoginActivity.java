@@ -33,6 +33,7 @@ import edu.carleton.COMP2601.communication.ThreadWithReactor;
  * Carolyn Fenwick - 100956658
  * Pierre Seguin - 100859121
  * April 12, 2017
+ *
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -109,11 +110,8 @@ public class LoginActivity extends AppCompatActivity {
 			return;
 		}
 
-
 		port = Integer.parseInt(port_field.getText().toString());
-
 		ar.init(port, ipaddr);
-
 
 		HashMap m = new HashMap();
 		m.put(Fields.ID, empId);
@@ -173,14 +171,6 @@ public class LoginActivity extends AppCompatActivity {
 			boolean status = "true".equalsIgnoreCase(e.get(Fields.STATUS).toString());
 			System.out.println(isAdmin);
 
-//			runOnUiThread(new Runnable() {
-//				@Override
-//				public void run() {
-//					Toast.makeText(LoginActivity.this, "Connected!", Toast.LENGTH_SHORT).show();
-//					spinner.setVisibility(View.GONE);
-//				}
-//			});
-
 			Intent intent;
 
 			if (status) {
@@ -202,10 +192,6 @@ public class LoginActivity extends AppCompatActivity {
 					}
 				});
 			}
-
-//			Intent intent = new Intent(LoginActivity.this, UserListActivity.class);
-//			intent.putExtra("name", name);
-//			startActivity(intent);
 		}
 	}
 
