@@ -11,6 +11,7 @@ import java.util.HashMap;
  */
 public class Shift implements Serializable, ShiftDetailItem {
 	SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+	public static SimpleDateFormat prettyDate = new SimpleDateFormat("EEE, MMM dd -- HH:mm");
 	public int id;
 	private Date start;
 	private Date end;
@@ -75,6 +76,6 @@ public class Shift implements Serializable, ShiftDetailItem {
 
 	@Override
 	public String getDescription() {
-		return "Shift from " +start + " to " + end;
+		return "Starting at: " +prettyDate.format(start) + "\nEnding at: " + prettyDate.format(end) ;
 	}
 }

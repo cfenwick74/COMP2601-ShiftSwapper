@@ -26,6 +26,7 @@ public class ShiftChangeRequest implements Serializable, ShiftDetailItem {
         requestee_shift_id = (Integer)request.get("requestee_shift_id");
         requestee_shift = new Shift((HashMap<String, Serializable>) request.get("requestee_shift"));
         requestor_shift = new Shift((HashMap<String, Serializable>)request.get("requestor_shift"));
+        changeId = (Integer)request.get("changeId");
     }
 
     @Override
@@ -35,7 +36,7 @@ public class ShiftChangeRequest implements Serializable, ShiftDetailItem {
 
     @Override
     public String getDescription() {
-        return "Shift change request from" + requestee_shift.getDescription() + " to " + requestor_shift.getDescription();
+        return "Shift swap offered:\n\n" + requestee_shift.getDescription() + "\n--------- to swap for shift --------- \n" + requestor_shift.getDescription();
     }
 
     public int getRequestor_shift_id() {
