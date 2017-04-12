@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import edu.carleton.COMP2601.dummy.DummyContent;
 import edu.carleton.COMP2601.model.ShiftDetailItem;
 
 /**

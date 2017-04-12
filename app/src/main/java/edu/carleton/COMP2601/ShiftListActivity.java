@@ -29,8 +29,6 @@ import edu.carleton.COMP2601.communication.Event;
 import edu.carleton.COMP2601.communication.EventHandler;
 import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.communication.JSONEvent;
-import edu.carleton.COMP2601.dummy.DummyContent;
-import edu.carleton.COMP2601.model.ScheduledShift;
 import edu.carleton.COMP2601.model.Shift;
 import edu.carleton.COMP2601.model.ShiftChangeRequest;
 import edu.carleton.COMP2601.model.ShiftDetailItem;

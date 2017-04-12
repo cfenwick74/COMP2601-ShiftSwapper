@@ -108,11 +108,9 @@ public class ShiftAdminActivity extends AppCompatActivity {
 					}
 				Toast.makeText(getBaseContext(), "Changes saved", Toast.LENGTH_LONG).show();
 				onBackPressed();
-
 			}
 
 		};
-
 	}
 
 	private void sendAssignmentRequest(String requestType, Integer employeeID, int shift_id) {
@@ -128,7 +126,6 @@ public class ShiftAdminActivity extends AppCompatActivity {
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-
 	}
 
 
@@ -152,10 +149,6 @@ public class ShiftAdminActivity extends AppCompatActivity {
 
 				}
 			});
-
 		}
 	}
-
-
-
 }
