@@ -1,10 +1,13 @@
 package edu.carleton.COMP2601;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
@@ -25,8 +28,14 @@ import edu.carleton.COMP2601.communication.AcceptorReactor;
 import edu.carleton.COMP2601.communication.Event;
 import edu.carleton.COMP2601.communication.EventHandler;
 import edu.carleton.COMP2601.communication.Fields;
+import edu.carleton.COMP2601.communication.JSONEvent;
 import edu.carleton.COMP2601.dummy.DummyContent;
+import edu.carleton.COMP2601.model.ScheduledShift;
+import edu.carleton.COMP2601.model.Shift;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
@@ -46,25 +55,33 @@ public class ShiftListActivity extends AppCompatActivity {
 	 * device.
 	 */
 	private boolean mTwoPane;
-
+	Activity a;
+	ArrayList<DummyContent.DummyItem> items = new ArrayList<>();
+	private ManageShiftsFragment.OnListFragmentInteractionListener mListener;
+	private String currentEmployee;
+	SimpleItemRecyclerViewAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		a = this;
 		AcceptorReactor ar = AcceptorReactor.getInstance();
+		currentEmployee = getIntent().getStringExtra(Fields.SOURCE);
+		JSONObject jo = new JSONObject();
+		try {
+			ar.register(Fields.EMP_SCHEDULE_RESPONSE, new EmployeeShiftResponseHandler());
+			jo.put(Fields.TYPE, Fields.EMP_SCHEDULE_REQUEST);
+			jo.put(Fields.SOURCE, currentEmployee);
+			jo.put(Fields.DEST, "Server");
+			ar.put(new JSONEvent(jo,null,new HashMap<String, Serializable>()));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		EmployeeShiftResponseHandler employeeShiftResponseHandler = new EmployeeShiftResponseHandler();
 		setContentView(R.layout.activity_shift_list);
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		toolbar.setTitle(getTitle());
-
-		try {
-			JSONObject jo = new JSONObject();
-			jo.put(Fields.TYPE, Fields.EMP_SCHEDULE_REQUEST);
-//			jo.put(Fields.SOURCE, )
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
 
 
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -112,7 +129,11 @@ public class ShiftListActivity extends AppCompatActivity {
 	}
 
 	private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-		recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+			//mListener = (ManageShiftsFragment.OnListFragmentInteractionListener) recyclerView;
+			//adapter = new MyShiftRecyclerViewAdapter(new ArrayList<ScheduledShift>(), mListener);
+			//recyclerView.setAdapter(adapter);
+		adapter = new SimpleItemRecyclerViewAdapter(items);
+		recyclerView.setAdapter(adapter);
 	}
 
 	public class SimpleItemRecyclerViewAdapter
@@ -189,7 +210,22 @@ public class ShiftListActivity extends AppCompatActivity {
 
 		@Override
 		public void handleEvent(Event event) {
-
+			items.clear();
+			int index = 0;
+			for(HashMap<String, Serializable> s : (ArrayList<HashMap<String,Serializable>>)event.get(Fields.SHIFT)){
+				items.add(new DummyContent.DummyItem(Integer.toString(index), "Your Shift: " + s.get("start").toString() + " to " + s.get("end").toString(), ""));
+				index++;
+			}
+			for(HashMap<String, Serializable> s : (ArrayList<HashMap<String,Serializable>>)event.get(Fields.REQUESTORS_SHIFT)){
+				items.add(new DummyContent.DummyItem(Integer.toString(index), "Requested Shift Change: " + s.get("start").toString() + " to " + s.get("end").toString(), ""));
+				index++;
+			}
+			a.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					adapter.notifyDataSetChanged();
+				}
+			});
 		}
 	}
 }
