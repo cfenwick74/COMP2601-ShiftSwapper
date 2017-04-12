@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -47,6 +48,8 @@ public class ShiftAdminActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shift_admin);
+        TextView contentView = (TextView) findViewById(R.id.content);
+
 		textViews = new ArrayList<>();
 
 		textViews.add((AutoCompleteTextView) findViewById(R.id.emp1));
@@ -66,6 +69,7 @@ public class ShiftAdminActivity extends AppCompatActivity {
 		currentEmployee = intent.getStringExtra(Fields.CURRENT_EMPLOYEE);
 
 
+		contentView.setText("ASSIGNING STAFF TO SHIFT\n-------------------------\n"+shift.getShift().getDescription());
 		List<Employee> employees = shift.getScheduledEmployees();
 
 
