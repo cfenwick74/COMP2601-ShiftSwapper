@@ -1,3 +1,10 @@
+/**
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ **/
+
 package edu.carleton.COMP2601;
 
 import android.app.Activity;
@@ -69,6 +76,11 @@ public class ShiftListActivity extends AppCompatActivity {
 		AcceptorReactor ar = AcceptorReactor.getInstance();
 		currentEmployee = getIntent().getStringExtra(Fields.SOURCE);
 		JSONObject jo = new JSONObject();
+
+		if(getIntent().hasExtra(ShiftDetailFragment.ARG_ARRAYLIST)) {
+			items = (ArrayList<ShiftDetailItem>) getIntent().getSerializableExtra(ShiftDetailFragment.ARG_ARRAYLIST);
+			adapter.notifyDataSetChanged();
+		}
 		try {
 			ar.register(Fields.EMP_SCHEDULE_RESPONSE, new EmployeeShiftResponseHandler());
 			jo.put(Fields.TYPE, Fields.EMP_SCHEDULE_REQUEST);
@@ -85,15 +97,6 @@ public class ShiftListActivity extends AppCompatActivity {
 		setSupportActionBar(toolbar);
 		toolbar.setTitle(getTitle());
 
-
-		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-						.setAction("Action", null).show();
-			}
-		});
 		// Show the Up button in the action bar.
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {
@@ -165,7 +168,9 @@ public class ShiftListActivity extends AppCompatActivity {
 				public void onClick(View v) {
 					if (mTwoPane) {
 						Bundle arguments = new Bundle();
-						arguments.putInt(ShiftDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
+						//arguments.putInt(ShiftDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
+						arguments.putString(ShiftDetailFragment.ARG_ITEM_CLASS, holder.mItem.getClass().toString());
+						arguments.putSerializable(ShiftDetailFragment.ARG_ITEM_VALUE, (Serializable) holder.mItem);
 						ShiftDetailFragment fragment = new ShiftDetailFragment();
 						fragment.setArguments(arguments);
 						getSupportFragmentManager().beginTransaction()
@@ -174,7 +179,8 @@ public class ShiftListActivity extends AppCompatActivity {
 					} else {
 						Context context = v.getContext();
 						Intent intent = new Intent(context, ShiftDetailActivity.class);
-						intent.putExtra(ShiftDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
+						intent.putExtra(ShiftDetailFragment.ARG_ITEM_VALUE, (Serializable) holder.mItem);
+						//intent.putExtra(ShiftDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
 
 						context.startActivity(intent);
 					}

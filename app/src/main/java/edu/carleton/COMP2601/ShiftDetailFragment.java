@@ -1,3 +1,9 @@
+/**
+		* COMP2601 Final project: ShiftSwapper
+		* Carolyn Fenwick - 100956658
+		* Pierre Seguin - 100859121
+		* April 12, 2017
+**/
 package edu.carleton.COMP2601;
 
 import android.app.Activity;
@@ -10,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import edu.carleton.COMP2601.dummy.DummyContent;
+import edu.carleton.COMP2601.model.Shift;
+import edu.carleton.COMP2601.model.ShiftChangeRequest;
+import edu.carleton.COMP2601.model.ShiftDetailItem;
 
 /**
  * A fragment representing a single Shift detail screen.
@@ -23,11 +32,14 @@ public class ShiftDetailFragment extends Fragment {
 	 * represents.
 	 */
 	public static final String ARG_ITEM_ID = "item_id";
+	public static final String ARG_ITEM_CLASS = "item_class";
+	public static final String ARG_ITEM_VALUE = "item_value";
+	public static final String ARG_ARRAYLIST = "arraylist";
 
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	private DummyContent.DummyItem mItem;
+	private ShiftDetailItem mItem;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,28 +52,18 @@ public class ShiftDetailFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
-			// Load the dummy content specified by the fragment
-			// arguments. In a real-world scenario, use a Loader
-			// to load content from a content provider.
-			mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
-			Activity activity = this.getActivity();
-			CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-			if (appBarLayout != null) {
-				appBarLayout.setTitle(mItem.content);
-			}
-		}
+		mItem = (Shift)getArguments().getSerializable(ARG_ITEM_VALUE);
+		Activity activity = this.getActivity();
+		CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.shift_detail, container, false);
-
 		// Show the dummy content as text in a TextView.
 		if (mItem != null) {
-			((TextView) rootView.findViewById(R.id.shift_detail)).setText(mItem.details);
+			((TextView) rootView.findViewById(R.id.shift_detail)).setText(mItem.getDescription());
 		}
 
 		return rootView;

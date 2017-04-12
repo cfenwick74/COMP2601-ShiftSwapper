@@ -1,3 +1,10 @@
+/**
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ **/
+
 package edu.carleton.COMP2601;
 
 import android.content.Intent;
@@ -10,6 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import edu.carleton.COMP2601.model.ShiftDetailItem;
+
 /**
  * An activity representing a single Shift detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
@@ -18,13 +29,14 @@ import android.view.MenuItem;
  */
 public class ShiftDetailActivity extends AppCompatActivity {
 
+	ArrayList<ShiftDetailItem> items;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shift_detail);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
 		setSupportActionBar(toolbar);
-
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -53,8 +65,8 @@ public class ShiftDetailActivity extends AppCompatActivity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(ShiftDetailFragment.ARG_ITEM_ID,
-					getIntent().getStringExtra(ShiftDetailFragment.ARG_ITEM_ID));
+			items = (ArrayList<ShiftDetailItem>) getIntent().getSerializableExtra(ShiftDetailFragment.ARG_ARRAYLIST);
+			arguments.putSerializable(ShiftDetailFragment.ARG_ITEM_VALUE, getIntent().getSerializableExtra(ShiftDetailFragment.ARG_ITEM_VALUE));
 			ShiftDetailFragment fragment = new ShiftDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
@@ -73,7 +85,10 @@ public class ShiftDetailActivity extends AppCompatActivity {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
+			Intent i = new Intent();
+			i.putExtra(ShiftDetailFragment.ARG_ARRAYLIST,items);
 			navigateUpTo(new Intent(this, ShiftListActivity.class));
+
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
