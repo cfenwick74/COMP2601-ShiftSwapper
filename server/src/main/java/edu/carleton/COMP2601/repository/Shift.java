@@ -7,7 +7,12 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * Created by carolyn on 2017-04-09.
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ *
+ * Shift.java - represents a Shift
  */
 public class Shift implements Serializable {
 	public int id;

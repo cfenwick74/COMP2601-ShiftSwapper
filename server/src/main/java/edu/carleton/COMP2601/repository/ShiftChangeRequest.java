@@ -3,7 +3,12 @@ package edu.carleton.COMP2601.repository;
 import java.io.Serializable;
 
 /**
- * Created by Pierre on 4/11/2017.
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ *
+ * ShiftChangeRequest.java - represents a shift change request
  */
 
 public class ShiftChangeRequest implements Serializable {

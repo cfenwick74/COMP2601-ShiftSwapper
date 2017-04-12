@@ -14,10 +14,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by carolyn on 2017-04-09.
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ *
+ * ShiftSwapRepository.java - contains all database-related functionality
  */
-
-
 public class ShiftSwapRepository {
 
 	public static final String TIME_IN = "timeIn";
@@ -44,6 +47,7 @@ public class ShiftSwapRepository {
 		ds = new SQLiteDataSource();
 
 		ds.setUrl(newDb);
+		System.out.println("DATABASE = " + newDb);
 	}
 	// find all shifts in the database
 	public List<Shift> findAllShifts() throws SQLException {

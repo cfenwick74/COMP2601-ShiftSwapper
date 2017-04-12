@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -26,6 +27,13 @@ import edu.carleton.COMP2601.communication.JSONEvent;
 import edu.carleton.COMP2601.model.Employee;
 import edu.carleton.COMP2601.model.ScheduledShift;
 
+/**
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ */
+
 public class ShiftAdminActivity extends AppCompatActivity {
 
 	AutoCompleteTextView emp1, emp2, emp3, emp4;
@@ -40,6 +48,8 @@ public class ShiftAdminActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shift_admin);
+        TextView contentView = (TextView) findViewById(R.id.content);
+
 		textViews = new ArrayList<>();
 
 		textViews.add((AutoCompleteTextView) findViewById(R.id.emp1));
@@ -59,6 +69,7 @@ public class ShiftAdminActivity extends AppCompatActivity {
 		currentEmployee = intent.getStringExtra(Fields.CURRENT_EMPLOYEE);
 
 
+		contentView.setText("ASSIGNING STAFF TO SHIFT\n-------------------------\n"+shift.getShift().getDescription());
 		List<Employee> employees = shift.getScheduledEmployees();
 
 
@@ -101,11 +112,9 @@ public class ShiftAdminActivity extends AppCompatActivity {
 					}
 				Toast.makeText(getBaseContext(), "Changes saved", Toast.LENGTH_LONG).show();
 				onBackPressed();
-
 			}
 
 		};
-
 	}
 
 	private void sendAssignmentRequest(String requestType, Integer employeeID, int shift_id) {
@@ -121,7 +130,6 @@ public class ShiftAdminActivity extends AppCompatActivity {
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-
 	}
 
 
@@ -145,10 +153,6 @@ public class ShiftAdminActivity extends AppCompatActivity {
 
 				}
 			});
-
 		}
 	}
-
-
-
 }

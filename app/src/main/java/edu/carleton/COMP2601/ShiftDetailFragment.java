@@ -14,10 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import edu.carleton.COMP2601.dummy.DummyContent;
-import edu.carleton.COMP2601.model.Shift;
-import edu.carleton.COMP2601.model.ShiftChangeRequest;
 import edu.carleton.COMP2601.model.ShiftDetailItem;
 
 /**
@@ -52,7 +48,8 @@ public class ShiftDetailFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mItem = (Shift)getArguments().getSerializable(ARG_ITEM_VALUE);
+
+		mItem = (ShiftDetailItem)getArguments().getSerializable(ARG_ITEM_VALUE);
 		Activity activity = this.getActivity();
 		CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
 	}

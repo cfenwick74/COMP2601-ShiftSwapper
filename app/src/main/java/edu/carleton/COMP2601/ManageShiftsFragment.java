@@ -2,10 +2,8 @@ package edu.carleton.COMP2601;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.ActionBarContainer;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,26 +15,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import edu.carleton.COMP2601.communication.AcceptorReactor;
 import edu.carleton.COMP2601.communication.Event;
 import edu.carleton.COMP2601.communication.EventHandler;
 import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.communication.JSONEvent;
-import edu.carleton.COMP2601.dummy.DummyShiftContent;
-import edu.carleton.COMP2601.model.Employee;
 import edu.carleton.COMP2601.model.ScheduledShift;
-import edu.carleton.COMP2601.model.Shift;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
+ *
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
  */
 public class ManageShiftsFragment extends Fragment {
 
@@ -150,14 +148,7 @@ public class ManageShiftsFragment extends Fragment {
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnListFragmentInteractionListener {
-		// TODO: Update argument type and name
 		void onListFragmentInteraction(ScheduledShift item);
-
-
-
-
-
-
 	}
 
 	private class MasterScheduleResponseHandler implements EventHandler {

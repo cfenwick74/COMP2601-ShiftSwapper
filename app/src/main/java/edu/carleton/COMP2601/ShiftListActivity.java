@@ -36,8 +36,6 @@ import edu.carleton.COMP2601.communication.Event;
 import edu.carleton.COMP2601.communication.EventHandler;
 import edu.carleton.COMP2601.communication.Fields;
 import edu.carleton.COMP2601.communication.JSONEvent;
-import edu.carleton.COMP2601.dummy.DummyContent;
-import edu.carleton.COMP2601.model.ScheduledShift;
 import edu.carleton.COMP2601.model.Shift;
 import edu.carleton.COMP2601.model.ShiftChangeRequest;
 import edu.carleton.COMP2601.model.ShiftDetailItem;
@@ -160,7 +158,6 @@ public class ShiftListActivity extends AppCompatActivity {
 		@Override
 		public void onBindViewHolder(final ViewHolder holder, int position) {
 			holder.mItem = mValues.get(position);
-			holder.mIdView.setText(""+mValues.get(position).getId());
 			holder.mContentView.setText(mValues.get(position).getDescription());
 
 			holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -195,14 +192,12 @@ public class ShiftListActivity extends AppCompatActivity {
 
 		public class ViewHolder extends RecyclerView.ViewHolder {
 			public final View mView;
-			public final TextView mIdView;
 			public final TextView mContentView;
 			public ShiftDetailItem mItem;
 
 			public ViewHolder(View view) {
 				super(view);
 				mView = view;
-				mIdView = (TextView) view.findViewById(R.id.id);
 				mContentView = (TextView) view.findViewById(R.id.content);
 			}
 

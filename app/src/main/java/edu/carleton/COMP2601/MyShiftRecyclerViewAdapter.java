@@ -14,8 +14,13 @@ import java.util.List;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Shift} and makes a call to the
  * specified {@link ManageShiftsFragment.OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ *
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
  */
+
 public class MyShiftRecyclerViewAdapter extends RecyclerView.Adapter<MyShiftRecyclerViewAdapter.ViewHolder> {
 
 	public final List<ScheduledShift> mValues;
@@ -37,8 +42,7 @@ public class MyShiftRecyclerViewAdapter extends RecyclerView.Adapter<MyShiftRecy
 	public void onBindViewHolder(final ViewHolder holder, int position) {
 		ScheduledShift scheduledShift = mValues.get(position);
 		holder.mItem = scheduledShift;
-		holder.mIdView.setText(""+scheduledShift.getShift().getId());
-		holder.mContentView.setText(scheduledShift.getShift().getStart() + " \n " +scheduledShift.getShift().getStart() +" Employees Assigned: " + scheduledShift.getScheduledEmployees().size());
+		holder.mContentView.setText(scheduledShift.getShift().getDescription() + "\nEmployees Assigned: " + scheduledShift.getScheduledEmployees().size());
 
 		holder.mView.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -59,14 +63,13 @@ public class MyShiftRecyclerViewAdapter extends RecyclerView.Adapter<MyShiftRecy
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		public final View mView;
-		public final TextView mIdView;
+
 		public final TextView mContentView;
 		public ScheduledShift mItem;
 
 		public ViewHolder(View view) {
 			super(view);
 			mView = view;
-			mIdView = (TextView) view.findViewById(R.id.id);
 			mContentView = (TextView) view.findViewById(R.id.content);
 		}
 

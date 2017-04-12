@@ -4,7 +4,12 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- * Created by carolyn on 2017-04-09.
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ *
+ * Employee.java - represents an Employee entity
  */
 public class Employee implements Serializable {
 private int id;
