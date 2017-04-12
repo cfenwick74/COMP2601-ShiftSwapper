@@ -63,7 +63,7 @@ public class ShiftSwapRepositoryTest {
 
 	@Test
 	public void canGetAllShiftsForAnEmployee() throws Exception {
-		assertTrue("should be some shifts assigned to an employee", shiftSwapRepo.findShiftsForEmployee(1).size() > 0);
+		assertTrue("should be some shifts assigned to an employee", shiftSwapRepo.findShiftsForEmployee(2).size() > 0);
 	}
 
 	@Test
