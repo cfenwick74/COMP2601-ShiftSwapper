@@ -157,7 +157,7 @@ public class ShiftSwapRepository {
 	}
 	public List<ShiftChangeRequest> findRequestedShiftChangesForEmployee(int employeeId){
 		ArrayList<ShiftChangeRequest> shifts = new ArrayList<>();
-		String sql = "SELECT a.shift_id, a.timeIn, a.timeOut, b.shift_id, b.timeIn, b.timeOut FROM shifts a, shifts b, schedule requestor_schedule, schedule requestee_schedule, shiftchange " +
+		String sql = "SELECT a.shift_id, a.timeIn, a.timeOut, b.shift_id, b.timeIn, b.timeOut, shiftchange.change_id FROM shifts a, shifts b, schedule requestor_schedule, schedule requestee_schedule, shiftchange " +
 				"WHERE requestor_schedule.schedule_id = shiftchange.requestor_schedule_id " +
 				"AND requestee_schedule.schedule_id = shiftchange.requestee_schedule_id " +
 				"AND a.shift_id = requestor_schedule.shift_id " +
@@ -199,7 +199,7 @@ public class ShiftSwapRepository {
 			shiftsFound.add(new ShiftChangeRequest(	rs.getInt(1),
 													new Shift(rs.getInt(1), new Date(rs.getLong(2)), new Date(rs.getLong(3))),
 													rs.getInt(4),
-													new Shift(rs.getInt(4), new Date(rs.getLong(5)), new Date(rs.getLong(6)))));
+													new Shift(rs.getInt(4), new Date(rs.getLong(5)), new Date(rs.getLong(6))), rs.getInt(7)));
 		}
 		return shiftsFound;
 	}
