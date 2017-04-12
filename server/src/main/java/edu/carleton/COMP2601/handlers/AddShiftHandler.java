@@ -9,7 +9,12 @@ import edu.carleton.COMP2601.repository.Shift;
 import edu.carleton.COMP2601.repository.ShiftSwapRepository;
 
 /**
- * Created by Pierre on 4/10/2017.
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ *
+ * Handles a request to add a shift (not yet implemented)
  */
 
 public class AddShiftHandler implements EventHandler {

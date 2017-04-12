@@ -37,6 +37,11 @@ import edu.carleton.COMP2601.model.Shift;
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
+ *
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
  */
 public class ManageShiftsFragment extends Fragment {
 

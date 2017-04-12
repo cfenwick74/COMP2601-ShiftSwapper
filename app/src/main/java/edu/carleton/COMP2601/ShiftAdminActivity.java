@@ -26,6 +26,13 @@ import edu.carleton.COMP2601.communication.JSONEvent;
 import edu.carleton.COMP2601.model.Employee;
 import edu.carleton.COMP2601.model.ScheduledShift;
 
+/**
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ */
+
 public class ShiftAdminActivity extends AppCompatActivity {
 
 	AutoCompleteTextView emp1, emp2, emp3, emp4;

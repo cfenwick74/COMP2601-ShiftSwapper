@@ -16,7 +16,12 @@ import edu.carleton.COMP2601.repository.ShiftChangeRequest;
 import edu.carleton.COMP2601.repository.ShiftSwapRepository;
 
 /**
- * Created by Pierre on 4/11/2017.
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ *
+ * Handles a request for an Employee's schedule
  */
 
 public class EmployeeScheduleRequestHandler implements EventHandler {
@@ -36,12 +41,6 @@ public class EmployeeScheduleRequestHandler implements EventHandler {
             a.put(Fields.REQUESTORS_SHIFT, requests);
             event.putEvent(new JSONEvent(jo,null,a));
 
-//            JSONObject jo = new JSONObject();
-//            jo.put(Fields.TYPE, Fields.END_SHIFTS);
-//            jo.put(Fields.SOURCE, Fields.DATABASE);
-//            jo.put(Fields.DEST, ((JSONEvent) event).getSource());
-//            HashMap<String, Serializable> a = new HashMap();
-//            event.putEvent(new JSONEvent(jo,null,a));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

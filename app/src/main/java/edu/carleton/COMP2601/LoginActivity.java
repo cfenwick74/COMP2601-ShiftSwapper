@@ -28,6 +28,12 @@ import edu.carleton.COMP2601.communication.JSONEventSource;
 import edu.carleton.COMP2601.communication.Reactor;
 import edu.carleton.COMP2601.communication.ThreadWithReactor;
 
+/**
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
+ */
 public class LoginActivity extends AppCompatActivity {
 
 	Button loginBtn;

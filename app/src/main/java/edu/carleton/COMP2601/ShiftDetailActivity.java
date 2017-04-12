@@ -15,6 +15,11 @@ import android.view.MenuItem;
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link ShiftListActivity}.
+ *
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
  */
 public class ShiftDetailActivity extends AppCompatActivity {
 

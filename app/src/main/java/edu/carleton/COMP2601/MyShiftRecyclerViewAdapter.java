@@ -14,8 +14,13 @@ import java.util.List;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Shift} and makes a call to the
  * specified {@link ManageShiftsFragment.OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ *
+ * COMP2601 Final project: ShiftSwapper
+ * Carolyn Fenwick - 100956658
+ * Pierre Seguin - 100859121
+ * April 12, 2017
  */
+
 public class MyShiftRecyclerViewAdapter extends RecyclerView.Adapter<MyShiftRecyclerViewAdapter.ViewHolder> {
 
 	public final List<ScheduledShift> mValues;
